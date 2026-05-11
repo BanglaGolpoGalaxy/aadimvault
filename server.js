@@ -15,14 +15,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes (later)
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/products', require('./routes/products'));
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/products', require('./routes/products')); // পরে চালু হবে
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`আদিম ভল্ট সার্ভার চলছে — পোর্ট ${PORT}`);
+  console.log(`[Adim Vault] Server running on http://localhost:${PORT}`);
 });
