@@ -1,0 +1,13 @@
+{
+  "name": "aadimvault",
+  "version": "1.0.0",
+  "description": "আদিম ভল্ট — A Reliqium Where Forgotten Objects Live Again",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "Milan Biswas",
+  "license": "MIT"
+}
