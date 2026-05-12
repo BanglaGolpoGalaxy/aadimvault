@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -18,24 +18,51 @@
 </head>
 <body class="light" data-lang="bn">
 
+    <!-- ==================== TOP BAR ==================== -->
+    <div id="top-bar">
+        <div class="container top-bar-content">
+            <span class="top-bar-text"><i class="fas fa-globe"></i> বিশ্বজনীন ভল্ট — ৬০,০০০+ নিবন্ধিত সদস্য</span>
+            <div class="top-bar-right">
+                <a href="#" class="lang-switch" onclick="switchLanguage('bn')">বাংলা</a>
+                <span class="top-divider">|</span>
+                <a href="#" class="lang-switch" onclick="switchLanguage('en')">English</a>
+                <span class="top-divider">|</span>
+                <button class="theme-btn-small" onclick="toggleTheme()" aria-label="থিম">🌙</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== NAVIGATION ==================== -->
     <header id="main-header">
         <div class="container nav-wrapper">
             <a href="index.html" class="logo">
                 <span class="logo-icon">🏛️</span>
-                <span class="logo-text">আদিম ভল্ট</span>
+                <div class="logo-text-group">
+                    <span class="logo-text">আদিম ভল্ট</span>
+                    <span class="logo-sub">AadimVault — A Reliqium</span>
+                </div>
             </a>
+
+            <!-- সার্চ বার -->
+            <div class="search-wrapper">
+                <form class="search-form" onsubmit="handleSearch(event)">
+                    <input type="text" id="search-input" class="search-input" placeholder="পুরনো মুদ্রা, প্রাচীন পান্ডুলিপি খুঁজুন...">
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
             <nav class="main-nav" id="mainNav">
                 <a href="index.html" class="active">হোম</a>
                 <a href="#">বাজার</a>
                 <a href="#">নিলাম</a>
-                <a href="#">বিনিময়</a>
                 <a href="#">গল্প</a>
-                <a href="login.html">লগইন</a>
-                <a href="upload.html">যোগ করুন</a>
+                <span id="auth-area">
+                    <a href="login.html"><i class="fas fa-user"></i> লগইন</a>
+                </span>
+                <a href="upload.html" class="btn-add"><i class="fas fa-plus-circle"></i> যোগ করুন</a>
                 <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="থিম পরিবর্তন">🌙</button>
             </nav>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="document.getElementById('mainNav').classList.toggle('show')">
+            <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('show')">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -43,55 +70,44 @@
 
     <!-- ==================== HERO SECTION ==================== -->
     <section class="hero" id="hero">
-        <div class="hero-overlay"></div>
         <div class="hero-content container">
             <h1 class="hero-title">আদিম ভল্ট</h1>
             <p class="hero-subtitle">ঐতিহ্য, ইতিহাস, আমাদের গর্ব</p>
             <p class="hero-desc">পৃথিবীর বিভিন্ন প্রান্তের হারিয়ে যাওয়া ঐতিহ্য, স্মৃতি ও ইতিহাস এখানে নিন্দিত ঠিকানা পায়। যে সব মূল্যবান জাদুঘরে জায়গা পায়নি, সেগুলোর জন্য এই ভার্চুয়াল ভল্ট।</p>
             <div class="hero-buttons">
-                <a href="#" class="btn btn-hero">এক্সপ্লোর করুন <i class="fas fa-arrow-right"></i></a>
-                <a href="#" class="btn btn-hero-outline">আমাদের সম্পর্কে <i class="fas fa-info-circle"></i></a>
+                <a href="#featured" class="btn btn-hero">এক্সপ্লোর করুন <i class="fas fa-arrow-right"></i></a>
+                <a href="#stories" class="btn btn-hero-outline">আমাদের সম্পর্কে <i class="fas fa-info-circle"></i></a>
             </div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS BAR ==================== -->
+    <section class="stats-bar">
+        <div class="container stats-grid">
+            <div class="stat-item"><span class="stat-number">60,000+</span> নিবন্ধিত সদস্য</div>
+            <div class="stat-item"><span class="stat-number">30,000+</span> ঐতিহ্যবাহী বস্তু</div>
+            <div class="stat-item"><span class="stat-number">6,000+</span> সফল নিলাম</div>
+            <div class="stat-item"><span class="stat-number">100+</span> দেশের সংগ্রাহক</div>
         </div>
     </section>
 
     <!-- ==================== POPULAR CATEGORIES ==================== -->
     <section class="section container" id="categories">
         <div class="section-header">
-            <h2>জনপ্রিয় সংস্থা</h2>
-            <a href="#" class="section-link">সব দেখুন <i class="fas fa-arrow-right"></i></a>
+            <h2>জনপ্রিয় ক্যাটাগরি</h2>
+            <a href="#" class="section-link">সব ক্যাটাগরি <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="category-grid">
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-monument"></i></div>
-                <h3>প্রাচীন মূর্তি ও ভাস্কর</h3>
-                <span class="cat-count">১,৪২০+ আইটেম</span>
-            </div>
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-coins"></i></div>
-                <h3>মুদ্রা ও প্রত্নসম্পদ</h3>
-                <span class="cat-count">২,৩১০+ আইটেম</span>
-            </div>
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-mask"></i></div>
-                <h3>আদিবাসী শিল্পকর্ম</h3>
-                <span class="cat-count">১,৪৭০+ আইটেম</span>
-            </div>
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-scroll"></i></div>
-                <h3>প্রাচীন পান্ডুলিপি ও দলিল</h3>
-                <span class="cat-count">৯৭০+ আইটেম</span>
-            </div>
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-shield-haltered"></i></div>
-                <h3>অস্ত্র ও সামরিক ঐতিহ্য</h3>
-                <span class="cat-count">১,৩৬০+ আইটেম</span>
-            </div>
-            <div class="category-card">
-                <div class="cat-icon"><i class="fas fa-book"></i></div>
-                <h3>বই ও দুর্লভ শিক্ষা</h3>
-                <span class="cat-count">১,৫০০+ আইটেম</span>
-            </div>
+        <div class="scrollable-row" id="category-scroll">
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-monument"></i></div><h3>প্রাচীন মূর্তি ও ভাস্কর</h3><span class="cat-count">১,৪২০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-coins"></i></div><h3>মুদ্রা ও প্রত্নসম্পদ</h3><span class="cat-count">২,৩১০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-mask"></i></div><h3>আদিবাসী শিল্পকর্ম</h3><span class="cat-count">১,৪৭০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-scroll"></i></div><h3>পান্ডুলিপি ও দলিল</h3><span class="cat-count">৯৭০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-shield-haltered"></i></div><h3>অস্ত্র ও সামরিক</h3><span class="cat-count">১,৩৬০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-book"></i></div><h3>বই ও শিক্ষা</h3><span class="cat-count">১,৫০০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-gem"></i></div><h3>গহনা ও রত্ন</h3><span class="cat-count">৮৪০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-jar"></i></div><h3>মাটির পাত্র</h3><span class="cat-count">৬২০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-clock"></i></div><h3>ঘড়ি ও যন্ত্র</h3><span class="cat-count">৪৯০+ আইটেম</span></div>
+            <div class="category-card"><div class="cat-icon"><i class="fas fa-camera-retro"></i></div><h3>ক্যামেরা ও ফটো</h3><span class="cat-count">৩৭০+ আইটেম</span></div>
         </div>
     </section>
 
@@ -102,13 +118,13 @@
                 <h2>চলমান নিলাম</h2>
                 <a href="#" class="section-link">সব নিলাম দেখুন <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="auction-grid">
+            <div class="scrollable-row" id="auction-scroll">
                 <div class="auction-card">
                     <div class="auction-img"><i class="fas fa-gem"></i></div>
                     <div class="auction-info">
                         <h3>পাল যুগের ব্রোঞ্জ মূর্তি</h3>
                         <span class="auction-price">₹ ১,২৫,০০০</span>
-                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                        <span class="auction-timer" data-end="2026-12-31T23:59:59"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
                     </div>
                 </div>
                 <div class="auction-card">
@@ -116,7 +132,7 @@
                     <div class="auction-info">
                         <h3>চকমকি প্রাচীন হার</h3>
                         <span class="auction-price">₹ ১,৮৫০</span>
-                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                        <span class="auction-timer" data-end="2026-12-25T12:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
                     </div>
                 </div>
                 <div class="auction-card">
@@ -124,7 +140,7 @@
                     <div class="auction-info">
                         <h3>ইন্দো-গ্রিক মুদ্রা</h3>
                         <span class="auction-price">₹ ১,৪০,০০০</span>
-                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                        <span class="auction-timer" data-end="2026-12-20T18:30:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
                     </div>
                 </div>
                 <div class="auction-card">
@@ -132,50 +148,29 @@
                     <div class="auction-info">
                         <h3>চীন রাজবংশের পার্ক</h3>
                         <span class="auction-price">₹ ১,০০,০০০</span>
-                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                        <span class="auction-timer" data-end="2026-12-18T15:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-necklace"></i></div>
+                    <div class="auction-info">
+                        <h3>অ্যাজটেক সোনার হার</h3>
+                        <span class="auction-price">₹ ২,১০,০০০</span>
+                        <span class="auction-timer" data-end="2026-12-22T10:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== FEATURED ITEMS ==================== -->
+    <!-- ==================== FEATURED ITEMS (API থেকে লোড) ==================== -->
     <section class="section container" id="featured">
         <div class="section-header">
-            <h2>নির্বাচিত সংগ্রহ</h2>
+            <h2>সম্প্রতি সংরক্ষিত স্মৃতি</h2>
             <a href="#" class="section-link">সব দেখুন <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="product-grid">
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-jar"></i></div>
-                <h3>প্রাচীন কুমার পাত্র</h3>
-                <p class="card-author">By Arif H.</p>
-            </article>
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-kit-medical"></i></div>
-                <h3>প্রাচীন কাচের সেট</h3>
-                <p class="card-author">By Tanvir S.</p>
-            </article>
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-necklace"></i></div>
-                <h3>আবিষ্কৃত পালার হার</h3>
-                <p class="card-author">By Jannat R.</p>
-            </article>
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-mask"></i></div>
-                <h3>নেপালি প্রাচীন মুখোশ</h3>
-                <p class="card-author">By Meherun N.</p>
-            </article>
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-coins"></i></div>
-                <h3>মোঘল যুগের মুদ্রা</h3>
-                <p class="card-author">By Rasel M.</p>
-            </article>
-            <article class="product-card">
-                <div class="card-img"><i class="fas fa-monument"></i></div>
-                <h3>প্রাচীন পাথরের মূর্তি</h3>
-                <p class="card-author">By Sohan P.</p>
-            </article>
+        <div class="product-grid" id="product-grid">
+            <p style="text-align:center;width:100%;">Loading products...</p>
         </div>
     </section>
 
@@ -187,22 +182,10 @@
                 <a href="#" class="section-link">সব গল্প দেখুন <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="story-grid">
-                <div class="story-card">
-                    <p class="story-text">"একটি পান্ডুলিপি থেকে এক টুকরো ইতিহাসের সন্ধান পেয়েছি, যা আমার পরিবারের অজানা গল্প বলে।"</p>
-                    <div class="story-author"><strong>Saiful Islam</strong></div>
-                </div>
-                <div class="story-card">
-                    <p class="story-text">"হারিয়ে যাওয়া ম্যাপ থেকে জানতে পারলাম আমার গ্রামের প্রাচীন বাণিজ্যপথের কথা।"</p>
-                    <div class="story-author"><strong>Mousumi Akter</strong></div>
-                </div>
-                <div class="story-card">
-                    <p class="story-text">"আদিম ভল্টে জমা রাখা আমার ঠাকুরদার ঘড়িটি এখনো ঠিক সময় দেয়, আর গল্প শোনায়।"</p>
-                    <div class="story-author"><strong>Rifat Khan</strong></div>
-                </div>
-                <div class="story-card">
-                    <p class="story-text">"একটি পুরনো মুখোশ থেকে আবিষ্কার করলাম নেপালের লুপ্ত এক উপজাতির ইতিহাস।"</p>
-                    <div class="story-author"><strong>Sadia Mim</strong></div>
-                </div>
+                <div class="story-card"><p class="story-text">"একটি পান্ডুলিপি থেকে এক টুকরো ইতিহাসের সন্ধান পেয়েছি, যা আমার পরিবারের অজানা গল্প বলে।"</p><div class="story-author"><strong>Saiful Islam</strong></div></div>
+                <div class="story-card"><p class="story-text">"হারিয়ে যাওয়া ম্যাপ থেকে জানতে পারলাম আমার গ্রামের প্রাচীন বাণিজ্যপথের কথা।"</p><div class="story-author"><strong>Mousumi Akter</strong></div></div>
+                <div class="story-card"><p class="story-text">"আদিম ভল্টে জমা রাখা আমার ঠাকুরদার ঘড়িটি এখনো ঠিক সময় দেয়, আর গল্প শোনায়।"</p><div class="story-author"><strong>Rifat Khan</strong></div></div>
+                <div class="story-card"><p class="story-text">"একটি পুরনো মুখোশ থেকে আবিষ্কার করলাম নেপালের লুপ্ত এক উপজাতির ইতিহাস।"</p><div class="story-author"><strong>Sadia Mim</strong></div></div>
             </div>
         </div>
     </section>
@@ -211,34 +194,20 @@
     <footer id="site-footer">
         <div class="container footer-grid">
             <div class="footer-col">
-                <h3>আদিম ভল্ট</h3>
+                <h3><span class="logo-icon">🏛️</span> আদিম ভল্ট</h3>
                 <p>ঐতিহ্য, ইতিহাস, আমাদের গর্ব।<br>পৃথিবীর প্রাচীন সম্পদ ও গল্প সংরক্ষণের ডিজিটাল ভল্ট।</p>
             </div>
             <div class="footer-col">
                 <h4>প্রধান লিংক</h4>
-                <ul>
-                    <li><a href="#">বাজার</a></li>
-                    <li><a href="#">নিলাম</a></li>
-                    <li><a href="#">বিনিময়</a></li>
-                    <li><a href="#">গল্প</a></li>
-                </ul>
+                <ul><li><a href="#">বাজার</a></li><li><a href="#">নিলাম</a></li><li><a href="#">বিনিময়</a></li><li><a href="#">গল্প</a></li></ul>
             </div>
             <div class="footer-col">
                 <h4>সহায়তা</h4>
-                <ul>
-                    <li><a href="#">কীভাবে কাজ করে</a></li>
-                    <li><a href="#">পেমেন্ট পদ্ধতি</a></li>
-                    <li><a href="#">গোপনীয়তা নীতি</a></li>
-                    <li><a href="#">সাহায্য কেন্দ্র</a></li>
-                </ul>
+                <ul><li><a href="#">কীভাবে কাজ করে</a></li><li><a href="#">পেমেন্ট</a></li><li><a href="#">গোপনীয়তা</a></li><li><a href="#">সাহায্য</a></li></ul>
             </div>
             <div class="footer-col">
                 <h4>কমিউনিটি</h4>
-                <ul>
-                    <li><a href="#">সংগ্রাহকের গল্প</a></li>
-                    <li><a href="#">ব্লগ</a></li>
-                    <li><a href="#">যোগাযোগ</a></li>
-                </ul>
+                <ul><li><a href="#">ব্লগ</a></li><li><a href="#">গ্যালারি</a></li><li><a href="#">যোগাযোগ</a></li></ul>
             </div>
             <div class="footer-col footer-newsletter">
                 <h4>নিউজলেটার</h4>
@@ -250,10 +219,12 @@
             </div>
         </div>
         <div class="footer-bottom container">
-            <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
+            <p>&copy; 2026 আদিম ভল্ট — A Reliqium Where Forgotten Objects Live Again</p>
         </div>
     </footer>
 
+    <script src="js/auth.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
