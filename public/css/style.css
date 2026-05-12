@@ -186,3 +186,35 @@ ul { list-style: none; }
 .footer-col ul li { margin-bottom: 6px; }
 .footer-col ul li a { opacity: 0.8; transition: opacity 0.2s; }
 .footer-col ul li a:hover { opacity:
+/* ========== PRODUCT CARD ENHANCEMENTS ========== */
+.product-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.card-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+.badge.auction { background: #d97706; }
+.badge.sale { background: #059669; }
+.badge.display { background: #6366f1; }
+.product-price {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 8px 0;
+}
