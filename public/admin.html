@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অ্যাডমিন প্যানেল | আদিম ভল্ট</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .admin-container { max-width: 1000px; margin: auto; padding: 30px 20px; }
+        .stats-cards { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+        .stat-card { flex: 1; min-width: 150px; background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: var(--shadow); text-align: center; }
+        .stat-card h3 { font-size: 2rem; color: var(--primary); }
+        .table-wrapper { overflow-x: auto; background: var(--card-bg); border-radius: 14px; box-shadow: var(--shadow); padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--accent); }
+        th { background: var(--bg-alt); }
+        .role-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .role-admin { background: #d97706; color: #fff; }
+        .role-user { background: var(--accent); color: #fff; }
+        .btn-change { background: var(--primary); color: #fff; border: none; padding: 5px 15px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
+    </style>
+</head>
+<body class="light" data-lang="bn">
+    <header id="main-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">আদিম ভল্ট</span></a>
+            <nav class="main-nav">
+                <a href="index.html">হোম</a>
+                <a href="admin.html" class="active">অ্যাডমিন</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <h1>অ্যাডমিন প্যানেল</h1>
+        <div class="stats-cards" id="stats-container">
+            <div class="stat-card"><h3>...</h3><p>মোট ইউজার</p></div>
+            <div class="stat-card"><h3>...</h3><p>মোট প্রোডাক্ট</p></div>
+            <div class="stat-card"><h3>...</h3><p>মোট নিলাম বিড</p></div>
+        </div>
+
+        <h2>ইউজার তালিকা</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>নাম</th><th>ইমেইল</th><th>রোল</th><th>কার্যক্রম</th></tr></thead>
+                <tbody id="user-table-body">
+                    <tr><td colspan="4">লোড হচ্ছে...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
