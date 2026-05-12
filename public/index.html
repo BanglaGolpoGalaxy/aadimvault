@@ -1,28 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আদিম ভল্ট | Adim Vault</title>
+    <title>আদিম ভল্ট | ঐতিহ্য, ইতিহাস, আমাদের গর্ব</title>
+    <meta name="description" content="আদিম ভল্ট — পৃথিবীর হারানো ঐতিহ্যের ভার্চুয়াল ভাণ্ডার। নিলাম, গল্প, সংগ্রহ।">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="light" data-lang="en">
-    <header>
-        <h1>আদিম ভল্ট</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="upload.html">Add</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+<body class="light" data-lang="bn">
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <header id="main-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🏛️</span>
+                <span class="logo-text">আদিম ভল্ট</span>
+            </a>
+            <nav class="main-nav" id="mainNav">
+                <a href="index.html" class="active">হোম</a>
+                <a href="#">বাজার</a>
+                <a href="#">নিলাম</a>
+                <a href="#">বিনিময়</a>
+                <a href="#">গল্প</a>
+                <a href="login.html">লগইন</a>
+                <a href="upload.html">যোগ করুন</a>
+                <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="থিম পরিবর্তন">🌙</button>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="document.getElementById('mainNav').classList.toggle('show')">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </header>
-    <main id="app">
-        <h2>Welcome to Adim Vault</h2>
-        <p>A Reliqium where forgotten objects live again.</p>
-    </main>
-    <footer>
-        <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1 class="hero-title">আদিম ভল্ট</h1>
+            <p class="hero-subtitle">ঐতিহ্য, ইতিহাস, আমাদের গর্ব</p>
+            <p class="hero-desc">পৃথিবীর বিভিন্ন প্রান্তের হারিয়ে যাওয়া ঐতিহ্য, স্মৃতি ও ইতিহাস এখানে নিন্দিত ঠিকানা পায়। যে সব মূল্যবান জাদুঘরে জায়গা পায়নি, সেগুলোর জন্য এই ভার্চুয়াল ভল্ট।</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-hero">এক্সপ্লোর করুন <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="btn btn-hero-outline">আমাদের সম্পর্কে <i class="fas fa-info-circle"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== POPULAR CATEGORIES ==================== -->
+    <section class="section container" id="categories">
+        <div class="section-header">
+            <h2>জনপ্রিয় সংস্থা</h2>
+            <a href="#" class="section-link">সব দেখুন <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-monument"></i></div>
+                <h3>প্রাচীন মূর্তি ও ভাস্কর</h3>
+                <span class="cat-count">১,৪২০+ আইটেম</span>
+            </div>
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-coins"></i></div>
+                <h3>মুদ্রা ও প্রত্নসম্পদ</h3>
+                <span class="cat-count">২,৩১০+ আইটেম</span>
+            </div>
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-mask"></i></div>
+                <h3>আদিবাসী শিল্পকর্ম</h3>
+                <span class="cat-count">১,৪৭০+ আইটেম</span>
+            </div>
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-scroll"></i></div>
+                <h3>প্রাচীন পান্ডুলিপি ও দলিল</h3>
+                <span class="cat-count">৯৭০+ আইটেম</span>
+            </div>
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-shield-haltered"></i></div>
+                <h3>অস্ত্র ও সামরিক ঐতিহ্য</h3>
+                <span class="cat-count">১,৩৬০+ আইটেম</span>
+            </div>
+            <div class="category-card">
+                <div class="cat-icon"><i class="fas fa-book"></i></div>
+                <h3>বই ও দুর্লভ শিক্ষা</h3>
+                <span class="cat-count">১,৫০০+ আইটেম</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== LIVE AUCTIONS ==================== -->
+    <section class="section bg-alt" id="auctions">
+        <div class="container">
+            <div class="section-header">
+                <h2>চলমান নিলাম</h2>
+                <a href="#" class="section-link">সব নিলাম দেখুন <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="auction-grid">
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-gem"></i></div>
+                    <div class="auction-info">
+                        <h3>পাল যুগের ব্রোঞ্জ মূর্তি</h3>
+                        <span class="auction-price">₹ ১,২৫,০০০</span>
+                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-ring"></i></div>
+                    <div class="auction-info">
+                        <h3>চকমকি প্রাচীন হার</h3>
+                        <span class="auction-price">₹ ১,৮৫০</span>
+                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-coins"></i></div>
+                    <div class="auction-info">
+                        <h3>ইন্দো-গ্রিক মুদ্রা</h3>
+                        <span class="auction-price">₹ ১,৪০,০০০</span>
+                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-crown"></i></div>
+                    <div class="auction-info">
+                        <h3>চীন রাজবংশের পার্ক</h3>
+                        <span class="auction-price">₹ ১,০০,০০০</span>
+                        <span class="auction-timer"><i class="fas fa-clock"></i> ০১ দিন ১৪ ঘণ্টা বাকি</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURED ITEMS ==================== -->
+    <section class="section container" id="featured">
+        <div class="section-header">
+            <h2>নির্বাচিত সংগ্রহ</h2>
+            <a href="#" class="section-link">সব দেখুন <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid">
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-jar"></i></div>
+                <h3>প্রাচীন কুমার পাত্র</h3>
+                <p class="card-author">By Arif H.</p>
+            </article>
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-kit-medical"></i></div>
+                <h3>প্রাচীন কাচের সেট</h3>
+                <p class="card-author">By Tanvir S.</p>
+            </article>
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-necklace"></i></div>
+                <h3>আবিষ্কৃত পালার হার</h3>
+                <p class="card-author">By Jannat R.</p>
+            </article>
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-mask"></i></div>
+                <h3>নেপালি প্রাচীন মুখোশ</h3>
+                <p class="card-author">By Meherun N.</p>
+            </article>
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-coins"></i></div>
+                <h3>মোঘল যুগের মুদ্রা</h3>
+                <p class="card-author">By Rasel M.</p>
+            </article>
+            <article class="product-card">
+                <div class="card-img"><i class="fas fa-monument"></i></div>
+                <h3>প্রাচীন পাথরের মূর্তি</h3>
+                <p class="card-author">By Sohan P.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ==================== COMMUNITY STORIES ==================== -->
+    <section class="section bg-alt" id="stories">
+        <div class="container">
+            <div class="section-header">
+                <h2>কমিউনিটি গল্প</h2>
+                <a href="#" class="section-link">সব গল্প দেখুন <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="story-grid">
+                <div class="story-card">
+                    <p class="story-text">"একটি পান্ডুলিপি থেকে এক টুকরো ইতিহাসের সন্ধান পেয়েছি, যা আমার পরিবারের অজানা গল্প বলে।"</p>
+                    <div class="story-author"><strong>Saiful Islam</strong></div>
+                </div>
+                <div class="story-card">
+                    <p class="story-text">"হারিয়ে যাওয়া ম্যাপ থেকে জানতে পারলাম আমার গ্রামের প্রাচীন বাণিজ্যপথের কথা।"</p>
+                    <div class="story-author"><strong>Mousumi Akter</strong></div>
+                </div>
+                <div class="story-card">
+                    <p class="story-text">"আদিম ভল্টে জমা রাখা আমার ঠাকুরদার ঘড়িটি এখনো ঠিক সময় দেয়, আর গল্প শোনায়।"</p>
+                    <div class="story-author"><strong>Rifat Khan</strong></div>
+                </div>
+                <div class="story-card">
+                    <p class="story-text">"একটি পুরনো মুখোশ থেকে আবিষ্কার করলাম নেপালের লুপ্ত এক উপজাতির ইতিহাস।"</p>
+                    <div class="story-author"><strong>Sadia Mim</strong></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer id="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h3>আদিম ভল্ট</h3>
+                <p>ঐতিহ্য, ইতিহাস, আমাদের গর্ব।<br>পৃথিবীর প্রাচীন সম্পদ ও গল্প সংরক্ষণের ডিজিটাল ভল্ট।</p>
+            </div>
+            <div class="footer-col">
+                <h4>প্রধান লিংক</h4>
+                <ul>
+                    <li><a href="#">বাজার</a></li>
+                    <li><a href="#">নিলাম</a></li>
+                    <li><a href="#">বিনিময়</a></li>
+                    <li><a href="#">গল্প</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>সহায়তা</h4>
+                <ul>
+                    <li><a href="#">কীভাবে কাজ করে</a></li>
+                    <li><a href="#">পেমেন্ট পদ্ধতি</a></li>
+                    <li><a href="#">গোপনীয়তা নীতি</a></li>
+                    <li><a href="#">সাহায্য কেন্দ্র</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>কমিউনিটি</h4>
+                <ul>
+                    <li><a href="#">সংগ্রাহকের গল্প</a></li>
+                    <li><a href="#">ব্লগ</a></li>
+                    <li><a href="#">যোগাযোগ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-newsletter">
+                <h4>নিউজলেটার</h4>
+                <p>নতুন সংগ্রহের খবর পেতে সাবস্ক্রাইব করো।</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('ধন্যবাদ!')">
+                    <input type="email" placeholder="আপনার ইমেইল" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
+        </div>
     </footer>
+
     <script src="js/main.js"></script>
 </body>
 </html>
