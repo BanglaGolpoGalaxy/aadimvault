@@ -1,28 +1,21 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static("public"));
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/products', require('./routes/products')); // পরে চালু হবে
+app.use("/uploads", express.static("uploads"));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+const authRoutes = require("./routes/auth");
+const productRoutes = require("./routes/products");
 
-app.listen(PORT, () => {
-  console.log(`[Adim Vault] Server running on http://localhost:${PORT}`);
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+
+app.listen(3000, () => {
+  console.log("Server running");
 });
