@@ -1,28 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - আদিম ভল্ট</title>
+    <title>পণ্য বিস্তারিত | আদিম ভল্ট</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .product-detail { max-width: 800px; margin: 40px auto; background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: var(--shadow); }
+        .image-gallery { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; }
+        .image-gallery img { height: 200px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .image-gallery img:hover { transform: scale(1.02); }
+        .image-gallery .no-img { font-size: 3rem; color: var(--accent); }
+        .product-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
+        .btn-edit, .btn-delete { padding: 8px 20px; border-radius: 20px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-edit { background: var(--accent); color: #fff; }
+        .btn-delete { background: #c0392b; color: #fff; }
+        .edit-form { display: none; margin-top: 30px; }
+    </style>
 </head>
-<body class="light" data-lang="en">
-    <header>
-        <h1>আদিম ভল্ট</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="upload.html">Add</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+<body class="light" data-lang="bn">
+    <header id="main-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">আদিম ভল্ট</span></a>
+            <nav class="main-nav">
+                <a href="index.html">হোম</a>
+                <a href="upload.html">যোগ করুন</a>
+                <a href="login.html">লগইন</a>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </nav>
+        </div>
     </header>
-    <main id="app">
-        <h2>Product Detail</h2>
-        <p>Details form coming soon.</p>
+
+    <main class="product-detail" id="product-container">
+        <p>লোড হচ্ছে...</p>
     </main>
-    <footer>
-        <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
-    </footer>
-    <script src="js/main.js"></script>
+
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const container = document.getElementById('product-container');
+
+        async function loadProduct() {
+            if (!productId) { container.innerHTML = '<p>কোন পণ্য নির্বাচিত হয়নি।</p>'; return; }
+            try {
+                const p = await Products.getById(productId);
+                renderProduct(p);
+            } catch (err) {
+                container.innerHTML = `<p style="color:red;">${err.message}</p>`;
+            }
+        }
+
+        function renderProduct(p) {
+            // Assume 'images' field is a JSON string of image paths (from future server), fallback to single image
+            let imagesHtml = '';
+            if (p.images && p.images.length) {
+                imagesHtml = p.images.map(img => `<img src="${img}" alt="${p.title}">`).join('');
+            } else if (p.image) {
+                imagesHtml = `<img src="${p.image}" alt="${p.title}" style="height:200px;">`;
+            } else {
+                imagesHtml = '<div class="no-img">🏺</div>';
+            }
+
+            const currentUser = Auth.getUser();
+            const canEdit = currentUser && (currentUser.id === p.user_id || currentUser.role === 'admin');
+
+            container.innerHTML = `
+                <div class="image-gallery">${imagesHtml}</div>
+                <h1>${p.title}</h1>
+                <p>${p.description || ''}</p>
+                <p><strong>মূল্য:</strong> ₹${Number(p.price).toFixed(2)}</p>
+                <p><strong>গল্প:</strong> ${p.story_local || p.story_en || 'কোন গল্প নেই'}</p>
+                ${p.pdf ? `<p><a href="${p.pdf}" target="_blank"><i class="fas fa-file-pdf"></i> পিডিএফ ডাউনলোড</a></p>` : ''}
+                <div class="card-badges">
+                    ${p.for_sale ? '<span class="badge sale">বিক্রির জন্য</span> ' : ''}
+                    ${p.display_only ? '<span class="badge display">শুধু প্রদর্শন</span> ' : ''}
+                    ${p.auction ? `<span class="badge auction">নিলাম চলছে</span>` : ''}
+                </div>
+                ${p.auction ? `<p><strong>নিলাম শেষ:</strong> ${new Date(p.auction_end).toLocaleString('bn')}</p>` : ''}
+                <div class="product-actions">
+                    ${canEdit ? `<button class="btn-edit" onclick="toggleEdit()">এডিট</button><button class="btn-delete" onclick="deleteProduct(${p.id})">ডিলিট</button>` : ''}
+                </div>
+                <div class="edit-form" id="edit-form"></div>
+            `;
+
+            if (canEdit) {
+                window.productData = p; // store for edit
+            }
+        }
+
+        function toggleEdit() {
+            const formDiv = document.getElementById('edit-form');
+            if (formDiv.style.display === 'block') { formDiv.style.display = 'none'; return; }
+            const p = window.productData;
+            formDiv.innerHTML = `
+                <h3>পণ্য সম্পাদনা করুন</h3>
+                <form id="edit-product-form" enctype="multipart/form-data">
+                    <label>নাম</label><input type="text" name="title" value="${p.title}" required>
+                    <label>বিবরণ</label><textarea name="description">${p.description || ''}</textarea>
+                    <label>মূল্য</label><input type="number" name="price" step="0.01" value="${p.price}">
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="for_sale" value="true" ${p.for_sale ? 'checked' : ''}> বিক্রির জন্য</label>
+                        <label><input type="checkbox" name="display_only" value="true" ${p.display_only ? 'checked' : ''}> শুধু প্রদর্শনী</label>
+                        <label><input type="checkbox" name="auction" value="true" ${p.auction ? 'checked' : ''}> নিলাম</label>
+                    </div>
+                    <label>গল্প (ইংরেজি)</label><textarea name="story_en">${p.story_en || ''}</textarea>
+                    <label>গল্প (নিজের ভাষায়)</label><textarea name="story_local">${p.story_local || ''}</textarea>
+                    <input type="hidden" name="local_lang" value="${p.local_lang || 'en'}">
+                    <label>ছবি পরিবর্তন (নতুন ছবি দিলে আগেরগুলি প্রতিস্থাপিত হবে)</label>
+                    <input type="file" name="images" accept="image/*" multiple>
+                    <label>পিডিএফ</label><input type="file" name="pdf" accept=".pdf">
+                    <button type="submit" class="btn-edit">আপডেট</button>
+                </form>
+                <div id="update-message" style="margin-top:10px;"></div>
+            `;
+            formDiv.style.display = 'block';
+            document.getElementById('edit-product-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                if (!formData.get('for_sale')) formData.set('for_sale', 'false');
+                if (!formData.get('display_only')) formData.set('display_only', 'false');
+                if (!formData.get('auction')) formData.set('auction', 'false');
+                try {
+                    await Products.update(p.id, formData);
+                    document.getElementById('update-message').innerHTML = '<p style="color:green;">আপডেট সফল! রিলোড হচ্ছে...</p>';
+                    setTimeout(() => window.location.reload(), 800);
+                } catch (err) {
+                    document.getElementById('update-message').innerHTML = `<p style="color:red;">${err.message}</p>`;
+                }
+            });
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('সত্যিই মুছে ফেলতে চান?')) return;
+            try {
+                await Products.delete(id);
+                alert('মুছে ফেলা হয়েছে।');
+                window.location.href = 'index.html';
+            } catch (err) {
+                alert('ডিলিট করতে ব্যর্থ: ' + err.message);
+            }
+        }
+
+        loadProduct();
+    </script>
 </body>
 </html>

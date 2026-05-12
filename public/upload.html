@@ -1,28 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - আদিম ভল্ট</title>
+    <title>নতুন সংগ্রহ যোগ | আদিম ভল্ট</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .upload-container { max-width: 650px; margin: 40px auto; background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: var(--shadow); }
+        .upload-form { display: flex; flex-direction: column; gap: 18px; }
+        .upload-form label { font-weight: 600; font-size: 0.9rem; }
+        .upload-form input, .upload-form textarea, .upload-form select { padding: 12px; border: 1px solid var(--accent); border-radius: 8px; background: var(--bg); color: var(--text); font-family: inherit; }
+        .upload-form .file-label { display: inline-block; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 25px; cursor: pointer; }
+        .upload-form .file-label i { margin-right: 5px; }
+        .file-names { font-size: 0.85rem; color: var(--text-light); margin-top: 5px; }
+        .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
+        .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: normal; }
+        .upload-btn { background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 30px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+    </style>
 </head>
-<body class="light" data-lang="en">
-    <header>
-        <h1>আদিম ভল্ট</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="upload.html">Add</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+<body class="light" data-lang="bn">
+    <header id="main-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">আদিম ভল্ট</span></a>
+            <nav class="main-nav">
+                <a href="index.html">হোম</a>
+                <a href="upload.html" class="active">যোগ করুন</a>
+                <a href="login.html">লগইন</a>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </nav>
+        </div>
     </header>
-    <main id="app">
-        <h2>Upload Product</h2>
-        <p>Uplod form coming soon.</p>
-    </main>
-    <footer>
-        <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
-    </footer>
-    <script src="js/main.js"></script>
+
+    <div class="upload-container">
+        <h2>নতুন সংগ্রহ যোগ করুন</h2>
+        <form id="product-form" class="upload-form" enctype="multipart/form-data">
+            <label>পণ্যের নাম *</label>
+            <input type="text" name="title" placeholder="উদা: প্রাচীন ব্রোঞ্জ মূর্তি" required>
+
+            <label>সংক্ষিপ্ত বিবরণ</label>
+            <textarea name="description" rows="3" placeholder="পণ্য সম্পর্কে সংক্ষেপে..."></textarea>
+
+            <label>মূল্য (₹)</label>
+            <input type="number" name="price" step="0.01" placeholder="25000">
+
+            <label>ছবি (সর্বোচ্চ ৫টি)</label>
+            <label class="file-label" for="images"><i class="fas fa-images"></i> ছবি সিলেক্ট করুন</label>
+            <input type="file" name="images" id="images" accept="image/*" multiple style="display:none;" onchange="updateFileList(this, 'image-names')">
+            <div id="image-names" class="file-names">কোনো ফাইল নির্বাচন করা হয়নি</div>
+
+            <label>পিডিএফ (ঐচ্ছিক)</label>
+            <label class="file-label" for="pdf"><i class="fas fa-file-pdf"></i> পিডিএফ সিলেক্ট করুন</label>
+            <input type="file" name="pdf" id="pdf" accept=".pdf" style="display:none;" onchange="updateFileList(this, 'pdf-name')">
+            <div id="pdf-name" class="file-names">কোনো ফাইল নির্বাচন করা হয়নি</div>
+
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="for_sale" value="true" checked> বিক্রির জন্য</label>
+                <label><input type="checkbox" name="display_only" value="true"> শুধু প্রদর্শনী</label>
+                <label><input type="checkbox" name="auction" value="true"> নিলাম</label>
+            </div>
+
+            <div id="auction-settings" style="display:none;">
+                <label>নিলাম শেষের তারিখ ও সময়</label>
+                <input type="datetime-local" name="auction_end">
+            </div>
+
+            <label>গল্প (ইংরেজি)</label>
+            <textarea name="story_en" rows="3" placeholder="Story in English..."></textarea>
+
+            <label>গল্প (নিজের ভাষায়)</label>
+            <textarea name="story_local" rows="3" placeholder="আপনার মাতৃভাষায় গল্প..."></textarea>
+            <input type="hidden" name="local_lang" value="bn">
+
+            <button type="submit" class="upload-btn">যোগ করুন</button>
+        </form>
+        <div id="upload-message" style="text-align:center; margin-top:20px;"></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        if (!Auth.isLoggedIn()) { alert('প্রথমে লগইন করুন।'); window.location.href = 'login.html'; }
+
+        document.querySelector('input[name="auction"]').addEventListener('change', function() {
+            document.getElementById('auction-settings').style.display = this.checked ? 'block' : 'none';
+        });
+
+        function updateFileList(input, displayId) {
+            const display = document.getElementById(displayId);
+            if (input.files.length) {
+                const names = Array.from(input.files).map(f => f.name).join(', ');
+                display.textContent = names;
+            } else {
+                display.textContent = 'কোনো ফাইল নির্বাচন করা হয়নি';
+            }
+        }
+
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('upload-message');
+            msg.innerHTML = '';
+            const formData = new FormData(e.target);
+            if (!formData.get('for_sale')) formData.set('for_sale', 'false');
+            if (!formData.get('display_only')) formData.set('display_only', 'false');
+            if (!formData.get('auction')) formData.set('auction', 'false');
+            try {
+                const result = await Products.create(formData);
+                msg.innerHTML = '<p style="color:green;">পণ্য সফলভাবে যোগ হয়েছে!</p>';
+                e.target.reset();
+                document.getElementById('image-names').textContent = 'কোনো ফাইল নির্বাচন করা হয়নি';
+                document.getElementById('pdf-name').textContent = 'কোনো ফাইল নির্বাচন করা হয়নি';
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            } catch (err) {
+                msg.innerHTML = `<p style="color:red;">${err.message}</p>`;
+            }
+        });
+    </script>
 </body>
 </html>

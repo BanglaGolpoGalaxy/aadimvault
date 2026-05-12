@@ -1,28 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - আদিম ভল্ট</title>
+    <title>লগইন | আদিম ভল্ট</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .auth-container { max-width: 450px; margin: 60px auto; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; }
+        .auth-tabs { display: flex; margin-bottom: 25px; border-radius: 30px; background: var(--bg-alt); overflow: hidden; }
+        .auth-tab { flex: 1; text-align: center; padding: 10px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-light); font-size: 1rem; transition: 0.2s; }
+        .auth-tab.active { background: var(--primary); color: #fff; border-radius: 30px; }
+        .auth-form { display: none; flex-direction: column; gap: 16px; }
+        .auth-form.active { display: flex; }
+        .auth-form label { font-weight: 600; font-size: 0.9rem; }
+        .auth-form input { padding: 12px; border: 1px solid var(--accent); border-radius: 8px; background: var(--bg); color: var(--text); font-family: inherit; }
+        .auth-btn { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 1rem; margin-top: 8px; }
+        .auth-message { text-align: center; margin-top: 15px; }
+    </style>
 </head>
-<body class="light" data-lang="en">
-    <header>
-        <h1>আদিম ভল্ট</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="login.html">Login</a>
-            <a href="upload.html">Add</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+<body class="light" data-lang="bn">
+    <header id="main-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">আদিম ভল্ট</span></a>
+            <nav class="main-nav">
+                <a href="index.html">হোম</a>
+                <a href="upload.html">যোগ করুন</a>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </nav>
+        </div>
     </header>
-    <main id="app">
-        <h2>Login</h2>
-        <p>Login form coming soon.</p>
-    </main>
-    <footer>
-        <p>&copy; 2026 আদিম ভল্ট — The Primeval Vault of Stories & Curios</p>
-    </footer>
-    <script src="js/main.js"></script>
+
+    <div class="auth-container">
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchTab('login')">লগইন</button>
+            <button class="auth-tab" onclick="switchTab('register')">রেজিস্টার</button>
+        </div>
+
+        <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+            <label>ইমেইল</label>
+            <input type="email" id="login-email" placeholder="example@mail.com" required>
+            <label>পাসওয়ার্ড</label>
+            <input type="password" id="login-password" placeholder="পাসওয়ার্ড" required>
+            <button type="submit" class="auth-btn">লগইন</button>
+        </form>
+
+        <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+            <label>নাম</label>
+            <input type="text" id="reg-name" placeholder="আপনার নাম" required>
+            <label>ইমেইল</label>
+            <input type="email" id="reg-email" placeholder="example@mail.com" required>
+            <label>পাসওয়ার্ড</label>
+            <input type="password" id="reg-password" placeholder="কমপক্ষে ৬ অক্ষর" minlength="6" required>
+            <button type="submit" class="auth-btn">রেজিস্টার</button>
+        </form>
+
+        <div id="auth-message" class="auth-message"></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', false));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+            document.getElementById('auth-message').innerHTML = '';
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const data = await Auth.login(email, password);
+                document.getElementById('auth-message').innerHTML = '<p style="color:green;">লগইন সফল! রিডাইরেক্ট হচ্ছে…</p>';
+                setTimeout(() => { window.location.href = 'index.html'; }, 800);
+            } catch (err) {
+                document.getElementById('auth-message').innerHTML = `<p style="color:red;">${err.message}</p>`;
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            try {
+                await Auth.register(name, email, password);
+                document.getElementById('auth-message').innerHTML = '<p style="color:green;">রেজিস্ট্রেশন সফল! এখন লগইন করুন।</p>';
+                switchTab('login');
+                document.getElementById('login-email').value = email;
+                document.getElementById('login-password').value = '';
+            } catch (err) {
+                document.getElementById('auth-message').innerHTML = `<p style="color:red;">${err.message}</p>`;
+            }
+        }
+    </script>
 </body>
 </html>
