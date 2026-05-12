@@ -4,9 +4,12 @@ const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
 
-// ---------- Multer setup (multiple fields) ----------
+// ---------- Multer setup (dynamic destination) ----------
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
+  destination: (req, file, cb) => {
+    const uploadsPath = req.app.get('uploadsPath') || 'uploads';
+    cb(null, uploadsPath);
+  },
   filename: (req, file, cb) => {
     const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, unique + path.extname(file.originalname));
@@ -88,12 +91,10 @@ router.post('/', auth, upload.fields([
     const { title, description, price, for_sale, display_only, auction, auction_end, story_en, story_local, local_lang } = req.body;
     if (!title) return res.status(400).json({ error: 'Title is required.' });
 
-    // Process multiple images
     const imageFiles = req.files['images'] || [];
     const imagePaths = imageFiles.map(f => `/uploads/${f.filename}`);
     const primaryImage = imagePaths.length ? imagePaths[0] : null;
 
-    // PDF
     const pdfFile = req.files['pdf'] ? req.files['pdf'][0] : null;
     const pdfPath = pdfFile ? `/uploads/${pdfFile.filename}` : null;
 
@@ -148,7 +149,6 @@ router.put('/:id', auth, upload.fields([
     const newImagePaths = imageFiles.map(f => `/uploads/${f.filename}`);
     const pdfFile = req.files['pdf'] ? req.files['pdf'][0] : null;
 
-    // Build dynamic update SQL
     let sql = `UPDATE products SET title=?, description=?, price=?, for_sale=?, display_only=?, auction=?, story_en=?, story_local=?, local_lang=?, auction_end=?`;
     let params = [
       title,
@@ -208,8 +208,6 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 // ---------- BIDDING ROUTES ----------
-
-// POST /api/products/:id/bid – place a bid
 router.post('/:id/bid', auth, async (req, res) => {
   try {
     const { amount } = req.body;
@@ -242,7 +240,6 @@ router.post('/:id/bid', auth, async (req, res) => {
   }
 });
 
-// GET /api/products/:id/bids – list bids for a product (public)
 router.get('/:id/bids', async (req, res) => {
   try {
     const db = await getDB();
