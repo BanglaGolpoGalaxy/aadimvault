@@ -18,7 +18,7 @@ async function getDB() {
     saveDB();
   }
 
-  // ---------- টেবিল তৈরি ----------
+  // ---------- Create tables if not exist ----------
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,6 +41,9 @@ async function getDB() {
       display_only INTEGER DEFAULT 0,
       auction INTEGER DEFAULT 0,
       image TEXT,
+      images TEXT,
+      pdf TEXT,
+      auction_end TEXT,
       story_en TEXT,
       story_local TEXT,
       local_lang TEXT DEFAULT 'en',
@@ -60,6 +63,19 @@ async function getDB() {
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
+
+  // ---------- Migration: add missing columns safely ----------
+  const addColumnIfNotExists = (table, column, type) => {
+    try {
+      db.run(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+    } catch (e) {
+      // column already exists – ignore
+    }
+  };
+
+  addColumnIfNotExists('products', 'images', 'TEXT');
+  addColumnIfNotExists('products', 'pdf', 'TEXT');
+  addColumnIfNotExists('products', 'auction_end', 'TEXT');
 
   saveDB();
   return db;

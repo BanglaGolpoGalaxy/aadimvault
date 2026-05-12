@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
 
-// ---------- Multer setup ----------
+// ---------- Multer setup (multiple fields) ----------
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => {
@@ -30,10 +30,13 @@ router.get('/', async (req, res) => {
           display_only: row[6],
           auction: row[7],
           image: row[8],
-          story_en: row[9],
-          story_local: row[10],
-          local_lang: row[11],
-          created_at: row[12]
+          images: row[9] ? JSON.parse(row[9]) : [],
+          pdf: row[10],
+          auction_end: row[11],
+          story_en: row[12],
+          story_local: row[13],
+          local_lang: row[14],
+          created_at: row[15]
         }))
       : [];
     res.json(products);
@@ -53,10 +56,22 @@ router.get('/:id', async (req, res) => {
     }
     const p = result[0].values[0];
     res.json({
-      id: p[0], user_id: p[1], title: p[2], description: p[3],
-      price: p[4], for_sale: p[5], display_only: p[6], auction: p[7],
-      image: p[8], story_en: p[9], story_local: p[10], local_lang: p[11],
-      created_at: p[12]
+      id: p[0],
+      user_id: p[1],
+      title: p[2],
+      description: p[3],
+      price: p[4],
+      for_sale: p[5],
+      display_only: p[6],
+      auction: p[7],
+      image: p[8],
+      images: p[9] ? JSON.parse(p[9]) : [],
+      pdf: p[10],
+      auction_end: p[11],
+      story_en: p[12],
+      story_local: p[13],
+      local_lang: p[14],
+      created_at: p[15]
     });
   } catch (err) {
     console.error(err);
@@ -64,18 +79,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// ---------- POST new product (auth required) ----------
-router.post('/', auth, upload.single('image'), async (req, res) => {
+// ---------- POST new product (auth required, multiple files) ----------
+router.post('/', auth, upload.fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'pdf', maxCount: 1 }
+]), async (req, res) => {
   try {
-    const { title, description, price, for_sale, display_only, auction, story_en, story_local, local_lang } = req.body;
+    const { title, description, price, for_sale, display_only, auction, auction_end, story_en, story_local, local_lang } = req.body;
     if (!title) return res.status(400).json({ error: 'Title is required.' });
 
-    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    // Process multiple images
+    const imageFiles = req.files['images'] || [];
+    const imagePaths = imageFiles.map(f => `/uploads/${f.filename}`);
+    const primaryImage = imagePaths.length ? imagePaths[0] : null;
+
+    // PDF
+    const pdfFile = req.files['pdf'] ? req.files['pdf'][0] : null;
+    const pdfPath = pdfFile ? `/uploads/${pdfFile.filename}` : null;
 
     const db = await getDB();
     db.run(
-      `INSERT INTO products (user_id, title, description, price, for_sale, display_only, auction, image, story_en, story_local, local_lang)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO products (user_id, title, description, price, for_sale, display_only, auction, image, images, pdf, auction_end, story_en, story_local, local_lang)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         req.user.id,
         title,
@@ -84,7 +109,10 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         for_sale === 'true' || for_sale === '1' ? 1 : 0,
         display_only === 'true' || display_only === '1' ? 1 : 0,
         auction === 'true' || auction === '1' ? 1 : 0,
-        image,
+        primaryImage,
+        JSON.stringify(imagePaths),
+        pdfPath,
+        auction_end || null,
         story_en || null,
         story_local || null,
         local_lang || 'en'
@@ -99,24 +127,29 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// ---------- PUT update product (owner or admin) ----------
-router.put('/:id', auth, upload.single('image'), async (req, res) => {
+// ---------- PUT update product ----------
+router.put('/:id', auth, upload.fields([
+  { name: 'images', maxCount: 5 },
+  { name: 'pdf', maxCount: 1 }
+]), async (req, res) => {
   try {
     const db = await getDB();
-    const result = db.exec('SELECT user_id FROM products WHERE id = ?', [req.params.id]);
+    const result = db.exec('SELECT user_id, images, pdf FROM products WHERE id = ?', [req.params.id]);
     if (!result.length || !result[0].values.length) {
       return res.status(404).json({ error: 'Product not found.' });
     }
     const ownerId = result[0].values[0][0];
-
     if (ownerId !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Not authorized.' });
     }
 
-    const { title, description, price, for_sale, display_only, auction, story_en, story_local, local_lang } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const { title, description, price, for_sale, display_only, auction, auction_end, story_en, story_local, local_lang } = req.body;
+    const imageFiles = req.files['images'] || [];
+    const newImagePaths = imageFiles.map(f => `/uploads/${f.filename}`);
+    const pdfFile = req.files['pdf'] ? req.files['pdf'][0] : null;
 
-    let sql = `UPDATE products SET title=?, description=?, price=?, for_sale=?, display_only=?, auction=?, story_en=?, story_local=?, local_lang=?`;
+    // Build dynamic update SQL
+    let sql = `UPDATE products SET title=?, description=?, price=?, for_sale=?, display_only=?, auction=?, story_en=?, story_local=?, local_lang=?, auction_end=?`;
     let params = [
       title,
       description || null,
@@ -126,14 +159,19 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
       auction === 'true' || auction === '1' ? 1 : 0,
       story_en || null,
       story_local || null,
-      local_lang || 'en'
+      local_lang || 'en',
+      auction_end || null
     ];
 
-    if (image) {
-      sql += ', image=?';
-      params.push(image);
+    if (imageFiles.length) {
+      sql += `, image=?, images=?`;
+      params.push(newImagePaths[0], JSON.stringify(newImagePaths));
     }
-    sql += ' WHERE id=?';
+    if (pdfFile) {
+      sql += `, pdf=?`;
+      params.push(`/uploads/${pdfFile.filename}`);
+    }
+    sql += ` WHERE id=?`;
     params.push(req.params.id);
 
     db.run(sql, params);
@@ -146,7 +184,7 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
   }
 });
 
-// ---------- DELETE product (owner or admin) ----------
+// ---------- DELETE product ----------
 router.delete('/:id', auth, async (req, res) => {
   try {
     const db = await getDB();
@@ -155,7 +193,6 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ error: 'Product not found.' });
     }
     const ownerId = result[0].values[0][0];
-
     if (ownerId !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Not authorized.' });
     }
@@ -164,6 +201,62 @@ router.delete('/:id', auth, async (req, res) => {
     saveDB();
 
     res.json({ message: 'Product deleted successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// ---------- BIDDING ROUTES ----------
+
+// POST /api/products/:id/bid – place a bid
+router.post('/:id/bid', auth, async (req, res) => {
+  try {
+    const { amount } = req.body;
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      return res.status(400).json({ error: 'Valid amount is required.' });
+    }
+
+    const db = await getDB();
+    const product = db.exec('SELECT auction, auction_end FROM products WHERE id = ?', [req.params.id]);
+    if (!product.length || !product[0].values.length) {
+      return res.status(404).json({ error: 'Product not found.' });
+    }
+    const prodData = product[0].values[0];
+    if (!prodData[0]) return res.status(400).json({ error: 'Product is not for auction.' });
+    if (prodData[1] && new Date(prodData[1]) < new Date()) {
+      return res.status(400).json({ error: 'Auction has ended.' });
+    }
+
+    db.run('INSERT INTO bids (product_id, user_id, amount) VALUES (?, ?, ?)', [
+      req.params.id,
+      req.user.id,
+      parseFloat(amount)
+    ]);
+    saveDB();
+
+    res.status(201).json({ message: 'Bid placed successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// GET /api/products/:id/bids – list bids for a product (public)
+router.get('/:id/bids', async (req, res) => {
+  try {
+    const db = await getDB();
+    const result = db.exec('SELECT * FROM bids WHERE product_id = ? ORDER BY amount DESC', [req.params.id]);
+    const bids = result.length && result[0].values.length
+      ? result[0].values.map(row => ({
+          id: row[0],
+          product_id: row[1],
+          user_id: row[2],
+          amount: row[3],
+          bid_at: row[4]
+        }))
+      : [];
+    res.json(bids);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error.' });
