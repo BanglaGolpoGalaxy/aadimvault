@@ -40,8 +40,8 @@ async function loadUsers() {
                 <td>${u.email}</td>
                 <td><span class="role-badge ${u.role === 'admin' ? 'role-admin' : 'role-user'}">${u.role}</span></td>
                 <td>
-                    ${u.role === 'admin' ? '' : `<button class="btn-change" onclick="promoteToAdmin(${u.id})">Make Admin</button>`}
-                    ${u.role === 'user' ? '' : `<button class="btn-change" style="background:#c0392b;" onclick="demoteToUser(${u.id})">Make User</button>`}
+                    ${u.role !== 'admin' ? `<button class="btn-change" onclick="promoteToAdmin(${u.id})">Make Admin</button>` : ''}
+                    ${u.role === 'admin' ? `<button class="btn-change" style="background:#c0392b;" onclick="demoteToUser(${u.id})">Make User</button>` : ''}
                 </td>
             </tr>
         `).join('');
