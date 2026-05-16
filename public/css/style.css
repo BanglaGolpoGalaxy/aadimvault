@@ -1,202 +1,457 @@
-/* ==================== CSS VARIABLES (প্রাচীন আরামদায়ক) ==================== */
-:root {
-    --bg: #fcf9f2;
-    --bg-alt: #f5efe0;
-    --text: #3a2c1b;
-    --text-light: #6b5d4b;
-    --primary: #8b5a2b;
-    --primary-dark: #5a3820;
-    --accent: #c49a6c;
-    --gold: #b8860b;
-    --card-bg: #fffcf5;
-    --shadow: 0 4px 16px rgba(90,56,32,0.1);
-    --header-bg: rgba(252,249,242,0.95);
-    --hero-gradient: linear-gradient(135deg, #3a2510 0%, #5a3820 40%, #2e1a08 100%);
-}
-body.dark {
-    --bg: #1e150f;
-    --bg-alt: #2a1f14;
-    --text: #e6d5b8;
-    --text-light: #bfa88a;
-    --primary: #c49a6c;
-    --primary-dark: #8b5a2b;
-    --accent: #dbb07b;
-    --gold: #d4af37;
-    --card-bg: #2a1f14;
-    --shadow: 0 4px 16px rgba(0,0,0,0.5);
-    --header-bg: rgba(30,21,15,0.95);
-    --hero-gradient: linear-gradient(135deg, #0a0603 0%, #1a0f06 40%, #0a0502 100%);
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* ==================== RESET ==================== */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    background: var(--bg); color: var(--text);
-    font-family: 'Noto Sans Bengali', system-ui, sans-serif;
-    line-height: 1.7; transition: background 0.3s, color 0.3s;
-}
-.container { max-width: 1200px; margin: auto; padding: 0 20px; }
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
+:root{
 
-/* ==================== TOP BAR ==================== */
-#top-bar {
-    background: var(--primary-dark); color: #f0e4d0;
-    font-size: 0.8rem; padding: 6px 0;
-}
-.top-bar-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-.top-bar-right { display: flex; align-items: center; gap: 8px; }
-.top-divider { opacity: 0.4; }
-.lang-switch { font-weight: 600; }
-.lang-switch:hover { color: var(--gold); }
-.theme-btn-small { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.9rem; }
+--bg:#f3eadb;
+--text:#3d2412;
+--card:#f8f1e4;
+--gold:#7a4d1d;
+--border:#d6c2a8;
 
-/* ==================== HEADER & NAV ==================== */
-#main-header {
-    background: var(--header-bg); backdrop-filter: blur(10px);
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 2px solid var(--accent);
-}
-.nav-wrapper {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 20px; gap: 15px; flex-wrap: wrap;
-}
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { font-size: 2rem; }
-.logo-text-group { display: flex; flex-direction: column; }
-.logo-text { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
-.logo-sub { font-size: 0.7rem; color: var(--text-light); font-style: italic; }
-
-/* সার্চ বার */
-.search-wrapper { flex: 1; max-width: 400px; min-width: 200px; }
-.search-form { display: flex; }
-.search-input {
-    flex: 1; padding: 10px 15px; border: 1px solid var(--accent);
-    border-radius: 25px 0 0 25px; font-family: inherit; background: var(--bg); color: var(--text);
-    outline: none;
-}
-.search-btn {
-    background: var(--primary); color: #fff; border: none;
-    padding: 10px 18px; border-radius: 0 25px 25px 0; cursor: pointer;
 }
 
-.main-nav { display: flex; align-items: center; gap: 12px; }
-.main-nav a {
-    font-weight: 600; font-size: 0.9rem; padding: 6px 12px;
-    border-radius: 6px; transition: all 0.2s;
-}
-.main-nav a:hover, .main-nav a.active { background: var(--accent); color: #fff; }
-.btn-add { background: var(--gold); color: #fff !important; border-radius: 20px !important; }
-.theme-btn { background: var(--primary); color: #fff; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 1rem; }
-.mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text); cursor: pointer; }
+body.dark{
 
-/* ==================== HERO ==================== */
-.hero {
-    background: var(--hero-gradient); padding: 60px 20px; text-align: center;
-    color: #fff; position: relative; overflow: hidden;
-}
-.hero-title { font-family: 'Noto Serif Bengali', serif; font-size: 2.8rem; margin-bottom: 6px; }
-.hero-subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 14px; }
-.hero-desc { max-width: 700px; margin: 0 auto 24px; opacity: 0.8; line-height: 1.8; }
-.hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.btn-hero { background: #fff; color: var(--primary-dark); padding: 12px 28px; border-radius: 30px; font-weight: 700; transition: 0.2s; }
-.btn-hero:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-.btn-hero-outline { background: transparent; color: #fff; padding: 12px 28px; border-radius: 30px; border: 2px solid rgba(255,255,255,0.5); font-weight: 700; transition: 0.2s; }
-.btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+--bg:#0f0b08;
+--text:#f3e5d0;
+--card:#1a1410;
+--gold:#d7a96b;
+--border:#3a2b1d;
 
-/* ==================== STATS BAR ==================== */
-.stats-bar { background: var(--bg-alt); padding: 20px 0; border-bottom: 1px solid var(--accent); }
-.stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; text-align: center; }
-.stat-number { display: block; font-size: 1.6rem; font-weight: 700; color: var(--gold); }
-
-/* ==================== SECTIONS ==================== */
-.section { padding: 50px 0; }
-.bg-alt { background: var(--bg-alt); }
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.section-header h2 { font-family: 'Noto Serif Bengali', serif; font-size: 1.5rem; color: var(--primary); }
-.section-link { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
-
-/* স্ক্রোলেবল রো */
-.scrollable-row {
-    display: flex; gap: 16px; overflow-x: auto;
-    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
-}
-.scrollable-row::-webkit-scrollbar { height: 6px; }
-.scrollable-row::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-
-/* ==================== CATEGORY CARDS ==================== */
-.category-card {
-    min-width: 150px; flex-shrink: 0; scroll-snap-align: start;
-    background: var(--card-bg); box-shadow: var(--shadow);
-    border-radius: 14px; padding: 20px 12px; text-align: center;
-    transition: transform 0.2s; cursor: pointer;
-}
-.category-card:hover { transform: translateY(-4px); }
-.cat-icon { font-size: 2rem; color: var(--accent); margin-bottom: 8px; }
-.category-card h3 { font-size: 0.85rem; margin-bottom: 4px; }
-.cat-count { font-size: 0.75rem; color: var(--text-light); }
-
-/* ==================== AUCTION CARDS ==================== */
-.auction-card {
-    min-width: 220px; flex-shrink: 0; scroll-snap-align: start;
-    background: var(--card-bg); border-radius: 14px;
-    box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column;
-}
-.auction-img { height: 120px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--accent); }
-.auction-info { padding: 15px; }
-.auction-info h3 { font-size: 0.95rem; margin-bottom: 6px; }
-.auction-price { font-size: 1.1rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 6px; }
-.auction-timer { font-size: 0.8rem; color: var(--text-light); }
-
-/* ==================== PRODUCT GRID ==================== */
-.product-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-}
-.product-card {
-    background: var(--card-bg); box-shadow: var(--shadow);
-    border-radius: 14px; padding: 20px; text-align: center; transition: transform 0.2s;
-}
-.product-card:hover { transform: translateY(-4px); }
-.product-img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-.card-badges { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
-.badge { font-size: 0.7rem; padding: 3px 10px; border-radius: 12px; font-weight: 600; color: #fff; }
-.badge.auction { background: #d97706; }
-.badge.sale { background: #059669; }
-.badge.display { background: #6366f1; }
-.card-story { font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
-.product-price { display: block; font-size: 1rem; font-weight: 700; color: var(--primary); margin: 8px 0; }
-.btn-small {
-    display: inline-block; background: var(--primary); color: #fff;
-    padding: 7px 16px; border-radius: 20px; font-size: 0.8rem; margin-top: 8px;
 }
 
-/* ==================== STORY CARDS ==================== */
-.story-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;
+body{
+
+background:var(--bg);
+color:var(--text);
+
+font-family:'Noto Sans Bengali',sans-serif;
+
+transition:0.3s;
+
 }
-.story-card { background: var(--card-bg); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); font-style: italic; }
-.story-text { font-size: 0.9rem; margin-bottom: 12px; color: var(--text-light); line-height: 1.6; }
-.story-author { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
 
-/* ==================== FOOTER ==================== */
-#site-footer { background: var(--primary-dark); color: #f0e4d0; padding: 50px 20px 20px; margin-top: 60px; }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-bottom: 30px; }
-.footer-col h3, .footer-col h4 { margin-bottom: 10px; color: #fff; }
-.footer-col ul li { margin-bottom: 5px; }
-.footer-col ul li a { opacity: 0.8; font-size: 0.9rem; }
-.footer-col ul li a:hover { opacity: 1; text-decoration: underline; }
-.newsletter-form { display: flex; margin-top: 8px; }
-.newsletter-form input { flex: 1; padding: 10px 14px; border: none; border-radius: 20px 0 0 20px; font-family: inherit; outline: none; }
-.newsletter-form button { background: var(--gold); color: #fff; border: none; padding: 10px 16px; border-radius: 0 20px 20px 0; cursor: pointer; }
-.footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.15); opacity: 0.8; font-size: 0.85rem; }
+img{
+width:100%;
+display:block;
+}
 
-/* ==================== RESPONSIVE ==================== */
-@media (max-width: 768px) {
-    .main-nav { display: none; }
-    .main-nav.show { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--header-bg); padding: 20px; gap: 12px; z-index: 99; }
-    .mobile-menu-btn { display: block; }
-    .hero-title { font-size: 2rem; }
-    .search-wrapper { max-width: 100%; order: 10; }
+.navbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:20px 60px;
+
+position:sticky;
+top:0;
+
+z-index:100;
+
+background:rgba(0,0,0,0.08);
+
+backdrop-filter:blur(12px);
+
+}
+
+.logo{
+
+display:flex;
+gap:15px;
+align-items:center;
+
+}
+
+.logo-circle{
+
+width:60px;
+height:60px;
+
+border-radius:50%;
+
+background:var(--gold);
+
+color:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-weight:bold;
+font-size:22px;
+
+}
+
+.logo h2{
+
+font-family:'Cinzel',serif;
+
+}
+
+nav{
+
+display:flex;
+gap:25px;
+
+}
+
+nav a{
+
+text-decoration:none;
+color:var(--text);
+
+font-weight:600;
+
+}
+
+.top-actions{
+
+display:flex;
+gap:10px;
+
+}
+
+.top-actions button{
+
+padding:10px 16px;
+
+border:none;
+
+background:var(--gold);
+
+color:white;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
+.hero{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  align-items:center;
+
+  gap:40px;
+
+  padding:60px;
+
+}
+
+.hero-left h1{
+
+  font-size:80px;
+
+  font-family:'Cinzel',serif;
+
+  margin:20px 0;
+
+}
+
+.hero-left h3{
+
+  font-size:38px;
+
+  margin-bottom:20px;
+
+}
+
+.hero-left p{
+
+  line-height:1.9;
+
+  font-size:18px;
+
+}
+
+.badge{
+
+  display:inline-block;
+
+  background:var(--gold);
+
+  color:white;
+
+  padding:10px 18px;
+
+  border-radius:50px;
+
+}
+
+.hero-buttons{
+
+  display:flex;
+  gap:20px;
+
+  margin-top:30px;
+
+}
+
+.primary-btn,
+.secondary-btn{
+
+  padding:14px 28px;
+
+  border-radius:12px;
+
+  border:none;
+
+  cursor:pointer;
+
+  font-weight:bold;
+
+}
+
+.primary-btn{
+
+  background:var(--gold);
+
+  color:white;
+
+}
+
+.secondary-btn{
+
+  border:2px solid var(--gold);
+
+  background:transparent;
+
+  color:var(--text);
+
+}
+
+.hero-right img{
+
+  height:600px;
+
+  object-fit:cover;
+
+  border-radius:30px;
+
+}
+
+.features{
+
+  display:grid;
+
+  grid-template-columns:repeat(4,1fr);
+
+  gap:20px;
+
+  padding:0 60px 60px;
+
+}
+
+.feature-card{
+
+  background:var(--card);
+
+  padding:30px;
+
+  border-radius:20px;
+
+  border:1px solid var(--border);
+
+  text-align:center;
+
+}
+.section{
+
+  padding:40px 60px;
+
+}
+
+.section-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:25px;
+
+}
+
+.cards-grid,
+.stories-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(4,1fr);
+
+  gap:20px;
+
+}
+
+.product-card,
+.story-card{
+
+  background:var(--card);
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  border:1px solid var(--border);
+
+}
+
+.product-card img,
+.story-card img{
+
+  height:260px;
+
+  object-fit:cover;
+
+}
+
+.card-content,
+.story-content{
+
+  padding:20px;
+
+}
+
+.dual-section{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:20px;
+
+  padding:20px 60px;
+
+}
+
+.auction-box,
+.exchange-box{
+
+  background:var(--card);
+
+  padding:30px;
+
+  border-radius:25px;
+
+  border:1px solid var(--border);
+
+}
+
+.auction-item{
+
+  display:flex;
+
+  gap:20px;
+
+}
+
+.auction-item img{
+
+  width:180px;
+  height:180px;
+
+  border-radius:20px;
+
+  object-fit:cover;
+
+}
+
+.exchange-item{
+
+  background:rgba(0,0,0,0.05);
+
+  padding:18px;
+
+  border-radius:12px;
+
+  margin-top:15px;
+
+}
+.footer{
+
+  margin-top:60px;
+
+  background:#1c120b;
+
+  color:#f3e5d0;
+
+  padding:50px 60px;
+
+  display:grid;
+
+  grid-template-columns:2fr 1fr 1fr;
+
+  gap:30px;
+
+}
+
+.footer a{
+
+  display:block;
+
+  color:#f3e5d0;
+
+  text-decoration:none;
+
+  margin-top:10px;
+
+}
+
+@media(max-width:900px){
+
+  .hero,
+  .dual-section,
+  .features,
+  .cards-grid,
+  .stories-grid,
+  .footer{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .navbar{
+
+    flex-direction:column;
+
+    gap:20px;
+
+  }
+
+  nav{
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+  }
+
+  .hero-left h1{
+
+    font-size:50px;
+
+  }
+
+  .hero-left h3{
+
+    font-size:28px;
+
+  }
+
+  .hero,
+  .section,
+  .dual-section,
+  .features{
+
+    padding:20px;
+
+  }
+
 }
