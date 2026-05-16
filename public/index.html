@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-en="AadimVault | A Reliquium" data-bn="আদিম ভল্ট | রিলিকুইয়াম">AadimVault | A Reliquium</title>
-    <meta name="description" content="AadimVault — Where Forgotten Objects Live Again. A global digital vault for old objects, stories, auctions.">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-en="AadimVault — A Reliquium" data-bn="আদিম ভল্ট — একটি রিলিকুইয়াম">AadimVault — A Reliquium</title>
+    <meta name="description" content="AadimVault — A Reliquium Where Forgotten Objects Live Again. A global digital vault for heritage, stories, and curios.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -24,66 +23,192 @@
 </head>
 <body class="light" data-lang="en">
 
+    <!-- ==================== TOP BAR ==================== -->
+    <div id="top-bar">
+        <div class="container top-bar-content">
+            <span class="top-bar-text"><i class="fas fa-globe"></i> <span data-en="Global Vault — 60,000+ Members" data-bn="বিশ্বজনীন ভল্ট — ৬০,০০০+ সদস্য">Global Vault — 60,000+ Members</span></span>
+            <div class="top-bar-right">
+                <button class="lang-btn active" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="bn">বাংলা</button>
+                <button class="theme-btn-small" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NAVIGATION ==================== -->
     <header id="main-header">
         <div class="container nav-wrapper">
-            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">AadimVault</span></a>
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🏛️</span>
+                <div class="logo-text-group">
+                    <span class="logo-text">AadimVault</span>
+                    <span class="logo-sub">A Reliquium</span>
+                </div>
+            </a>
+
             <div class="search-wrapper">
                 <form class="search-form" onsubmit="handleSearch(event)">
                     <input type="text" id="search-input" class="search-input" placeholder="Search old coins, manuscripts..." data-en-placeholder="Search old coins, manuscripts..." data-bn-placeholder="পুরনো মুদ্রা, পান্ডুলিপি খুঁজুন...">
                     <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <nav class="main-nav">
+
+            <nav class="main-nav" id="mainNav">
                 <a href="index.html" class="active" data-en="Home" data-bn="হোম">Home</a>
-                <a href="upload.html" data-en="Add" data-bn="যোগ করুন">Add</a>
-                <a href="login.html" data-en="Login" data-bn="লগইন">Login</a>
-                <span id="auth-area"></span>
-                <div class="lang-toggle">
-                    <button class="lang-btn active" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="bn">বাংলা</button>
-                </div>
-                <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+                <a href="#" data-en="Market" data-bn="বাজার">Market</a>
+                <a href="#" data-en="Auctions" data-bn="নিলাম">Auctions</a>
+                <a href="#" data-en="Stories" data-bn="গল্প">Stories</a>
+                <span id="auth-area">
+                    <a href="login.html"><i class="fas fa-user"></i> <span data-en="Login" data-bn="লগইন">Login</span></a>
+                </span>
+                <a href="upload.html" class="btn-add"><i class="fas fa-plus-circle"></i> <span data-en="Add" data-bn="যোগ করুন">Add</span></a>
             </nav>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('show')">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <section class="hero">
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero" id="hero">
         <div class="hero-content container">
             <h1 class="hero-title">AadimVault</h1>
             <p class="hero-subtitle" data-en="A Reliquium — Where Forgotten Objects Live Again" data-bn="একটি রিলিকুইয়াম — যেখানে বিস্মৃত বস্তু আবার বেঁচে ওঠে">A Reliquium — Where Forgotten Objects Live Again</p>
             <p class="hero-desc" data-en="A global digital vault for heritage, stories, and curios. Explore, collect, and share history." data-bn="ঐতিহ্য, গল্প ও কৌতূহলপূর্ণ জিনিসের জন্য একটি বিশ্বজনীন ডিজিটাল ভল্ট। ইতিহাস ঘুরে দেখুন, সংগ্রহ করুন ও ভাগ করে নিন।">A global digital vault for heritage, stories, and curios. Explore, collect, and share history.</p>
             <div class="hero-buttons">
                 <a href="#featured" class="btn btn-hero" data-en="Explore" data-bn="এক্সপ্লোর">Explore</a>
+                <a href="#stories" class="btn btn-hero-outline" data-en="About Us" data-bn="আমাদের সম্পর্কে">About Us</a>
             </div>
         </div>
     </section>
 
+    <!-- ==================== STATS BAR ==================== -->
     <section class="stats-bar">
         <div class="container stats-grid" id="stats-grid">
-            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Members" data-bn="সদস্য">Members</span></div>
-            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Objects" data-bn="বস্তু">Objects</span></div>
-            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Auctions" data-bn="নিলাম">Auctions</span></div>
+            <div class="stat-item"><span class="stat-number" id="stat-users">...</span> <span data-en="Members" data-bn="সদস্য">Members</span></div>
+            <div class="stat-item"><span class="stat-number" id="stat-products">...</span> <span data-en="Objects" data-bn="বস্তু">Objects</span></div>
+            <div class="stat-item"><span class="stat-number" id="stat-bids">...</span> <span data-en="Auctions" data-bn="নিলাম">Auctions</span></div>
         </div>
     </section>
 
-    <section class="section container" id="categories-section">
-        <div class="section-header"><h2 data-en="Popular Categories" data-bn="জনপ্রিয় ক্যাটাগরি">Popular Categories</h2></div>
-        <div class="category-grid" id="category-grid">Loading...</div>
+    <!-- ==================== POPULAR CATEGORIES ==================== -->
+    <section class="section container" id="categories">
+        <div class="section-header">
+            <h2 data-en="Popular Categories" data-bn="জনপ্রিয় ক্যাটাগরি">Popular Categories</h2>
+            <a href="#" class="section-link" data-en="All Categories →" data-bn="সব ক্যাটাগরি →">All Categories →</a>
+        </div>
+        <div class="scrollable-row" id="category-scroll">
+            <!-- ডামি + লাইভ ক্যাটাগরি কার্ড জাভাস্ক্রিপ্ট দিয়ে বসানো হবে -->
+        </div>
     </section>
 
+    <!-- ==================== LIVE AUCTIONS ==================== -->
+    <section class="section bg-alt" id="auctions">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Live Auctions" data-bn="চলমান নিলাম">Live Auctions</h2>
+                <a href="#" class="section-link" data-en="All Auctions →" data-bn="সব নিলাম →">All Auctions →</a>
+            </div>
+            <div class="scrollable-row" id="auction-scroll">
+                <!-- ডামি নিলাম কার্ড -->
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-gem"></i></div>
+                    <div class="auction-info">
+                        <h3 data-en="Pala Bronze Statue" data-bn="পাল ব্রোঞ্জ মূর্তি">Pala Bronze Statue</h3>
+                        <span class="auction-price">₹ 1,25,000</span>
+                        <span class="auction-timer" data-end="2026-12-31T23:59:59"><i class="fas fa-hourglass-half"></i> 01d 14h</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-ring"></i></div>
+                    <div class="auction-info">
+                        <h3 data-en="Ancient Flint Necklace" data-bn="প্রাচীন চকমকি হার">Ancient Flint Necklace</h3>
+                        <span class="auction-price">₹ 1,850</span>
+                        <span class="auction-timer" data-end="2026-12-25T12:00:00"><i class="fas fa-hourglass-half"></i> 01d 14h</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-coins"></i></div>
+                    <div class="auction-info">
+                        <h3 data-en="Indo-Greek Coin" data-bn="ইন্দো-গ্রিক মুদ্রা">Indo-Greek Coin</h3>
+                        <span class="auction-price">₹ 1,40,000</span>
+                        <span class="auction-timer" data-end="2026-12-20T18:30:00"><i class="fas fa-hourglass-half"></i> 01d 14h</span>
+                    </div>
+                </div>
+                <div class="auction-card">
+                    <div class="auction-img"><i class="fas fa-crown"></i></div>
+                    <div class="auction-info">
+                        <h3 data-en="Chinese Dynasty Crown" data-bn="চীন রাজবংশের মুকুট">Chinese Dynasty Crown</h3>
+                        <span class="auction-price">₹ 1,00,000</span>
+                        <span class="auction-timer" data-end="2026-12-18T15:00:00"><i class="fas fa-hourglass-half"></i> 01d 14h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURED ITEMS (API) ==================== -->
     <section class="section container" id="featured">
-        <div class="section-header"><h2 data-en="Recently Added" data-bn="সম্প্রতি যোগকৃত">Recently Added</h2></div>
-        <div class="product-grid" id="product-grid">Loading...</div>
+        <div class="section-header">
+            <h2 data-en="Recently Added" data-bn="সম্প্রতি যোগকৃত">Recently Added</h2>
+            <a href="#" class="section-link" data-en="View All →" data-bn="সব দেখুন →">View All →</a>
+        </div>
+        <div class="product-grid" id="product-grid">
+            <p style="text-align:center;">Loading...</p>
+        </div>
     </section>
 
+    <!-- ==================== COMMUNITY STORIES ==================== -->
+    <section class="section bg-alt" id="stories">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-en="Community Stories" data-bn="কমিউনিটি গল্প">Community Stories</h2>
+                <a href="#" class="section-link" data-en="All Stories →" data-bn="সব গল্প →">All Stories →</a>
+            </div>
+            <div class="story-grid">
+                <div class="story-card"><p class="story-text">"Found a manuscript that told unknown stories of my family."</p><div class="story-author"><strong>Saiful Islam</strong></div></div>
+                <div class="story-card"><p class="story-text">"A lost map led me to discover my village's ancient trade route."</p><div class="story-author"><strong>Mousumi Akter</strong></div></div>
+                <div class="story-card"><p class="story-text">"My grandfather's watch still tells time and stories."</p><div class="story-author"><strong>Rifat Khan</strong></div></div>
+                <div class="story-card"><p class="story-text">"An old mask revealed a lost Nepalese tribe's history."</p><div class="story-author"><strong>Sadia Mim</strong></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
     <footer id="site-footer">
-        <div class="container" style="text-align: center; padding: 24px;">
-            <p>&copy; 2026 AadimVault — The Primeval Vault of Stories & Curios</p>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h3><span class="logo-icon">🏛️</span> AadimVault</h3>
+                <p data-en="Heritage, History, Our Pride. A digital vault for preserving global antiquities and stories." data-bn="ঐতিহ্য, ইতিহাস, আমাদের গর্ব। বিশ্বের প্রাচীন সম্পদ ও গল্প সংরক্ষণের ডিজিটাল ভল্ট।">Heritage, History, Our Pride.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-en="Main Links" data-bn="প্রধান লিংক">Main Links</h4>
+                <ul><li><a href="#" data-en="Market" data-bn="বাজার">Market</a></li><li><a href="#" data-en="Auctions" data-bn="নিলাম">Auctions</a></li><li><a href="#" data-en="Stories" data-bn="গল্প">Stories</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-en="Help" data-bn="সহায়তা">Help</h4>
+                <ul><li><a href="#" data-en="How It Works" data-bn="কীভাবে কাজ করে">How It Works</a></li><li><a href="#" data-en="Privacy" data-bn="গোপনীয়তা">Privacy</a></li><li><a href="#" data-en="Support" data-bn="সাহায্য">Support</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-en="Community" data-bn="কমিউনিটি">Community</h4>
+                <ul><li><a href="#" data-en="Blog" data-bn="ব্লগ">Blog</a></li><li><a href="#" data-en="Gallery" data-bn="গ্যালারি">Gallery</a></li><li><a href="#" data-en="Contact" data-bn="যোগাযোগ">Contact</a></li></ul>
+            </div>
+            <div class="footer-col footer-newsletter">
+                <h4 data-en="Newsletter" data-bn="নিউজলেটার">Newsletter</h4>
+                <p data-en="Subscribe for updates." data-bn="আপডেট পেতে সাবস্ক্রাইব করুন।">Subscribe for updates.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you!')">
+                    <input type="email" placeholder="Your email" data-en-placeholder="Your email" data-bn-placeholder="আপনার ইমেইল" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 AadimVault — A Reliquium Where Forgotten Objects Live Again</p>
         </div>
     </footer>
 
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="js/auth.js"></script>
-    <script src="js/utils.js"></script>
     <script>
         const API = '/api';
 
@@ -92,10 +217,10 @@
             document.body.classList.toggle('dark'); document.body.classList.toggle('light');
             const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
-            document.getElementById('theme-toggle').innerHTML = theme === 'dark' ? '☀️' : '🌙';
+            document.querySelectorAll('.theme-btn-small, .theme-btn').forEach(btn => btn.innerHTML = theme === 'dark' ? '☀️' : '🌙');
         }
         (function() {
-            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); document.getElementById('theme-toggle').innerHTML = '☀️'; }
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); document.querySelectorAll('.theme-btn-small, .theme-btn').forEach(btn => btn.innerHTML = '☀️'); }
         })();
 
         // ---------- Language ----------
@@ -112,11 +237,11 @@
         function updateNav() {
             const area = document.getElementById('auth-area');
             if (!area) return;
-            if (Auth.isLoggedIn()) {
+            if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
                 const u = Auth.getUser();
-                area.innerHTML = `<span>👤 ${u.name||'User'}</span> <a href="#" onclick="Auth.logout();return false;" data-en="Logout" data-bn="লগআউট">Logout</a>`;
+                area.innerHTML = `<span style="margin-right:8px;"><i class="fas fa-user"></i> ${u.name||'User'}</span> <a href="#" onclick="Auth.logout();return false;" data-en="Logout" data-bn="লগআউট">Logout</a>`;
             } else {
-                area.innerHTML = `<a href="login.html" data-en="Login" data-bn="লগইন">Login</a>`;
+                area.innerHTML = `<a href="login.html"><i class="fas fa-user"></i> <span data-en="Login" data-bn="লগইন">Login</span></a>`;
             }
         }
 
@@ -125,33 +250,50 @@
             try {
                 const res = await fetch(`${API}/products/stats`);
                 const data = await res.json();
-                const nums = document.querySelectorAll('#stats-grid .stat-number');
-                if (nums.length >= 3) {
-                    nums[0].textContent = data.totalUsers || 0;
-                    nums[1].textContent = data.totalProducts || 0;
-                    nums[2].textContent = data.totalBids || 0;
-                }
+                document.getElementById('stat-users').textContent = data.totalUsers || 0;
+                document.getElementById('stat-products').textContent = data.totalProducts || 0;
+                document.getElementById('stat-bids').textContent = data.totalBids || 0;
             } catch(e) { console.error(e); }
         }
 
         // ---------- Categories ----------
+        const DEFAULT_CATEGORIES = [
+            { category: 'Statue', count: 0, icon: 'fa-monument' },
+            { category: 'Coin', count: 0, icon: 'fa-coins' },
+            { category: 'Manuscript', count: 0, icon: 'fa-scroll' },
+            { category: 'Mask', count: 0, icon: 'fa-mask' },
+            { category: 'Weapon', count: 0, icon: 'fa-shield-haltered' },
+            { category: 'Book', count: 0, icon: 'fa-book' },
+            { category: 'Jewelry', count: 0, icon: 'fa-gem' },
+            { category: 'Pottery', count: 0, icon: 'fa-jar' },
+            { category: 'Watch', count: 0, icon: 'fa-clock' },
+            { category: 'Camera', count: 0, icon: 'fa-camera-retro' }
+        ];
+
         async function loadCategories() {
-            const grid = document.getElementById('category-grid');
+            const scroll = document.getElementById('category-scroll');
             try {
                 const res = await fetch(`${API}/products/categories`);
-                const cats = await res.json();
-                grid.innerHTML = cats.map(c => `<div class="category-card category-link" onclick="filterCategory('${c.category}')">
-                    <div class="cat-icon"><i class="fas fa-box"></i></div>
-                    <h3>${c.category}</h3><span class="cat-count">${c.count} items</span>
-                </div>`).join('') || '<p>No categories yet.</p>';
-            } catch(e) { grid.innerHTML = '<p>Error loading.</p>'; }
+                const liveCats = await res.json();
+                const merged = DEFAULT_CATEGORIES.map(d => {
+                    const found = liveCats.find(l => l.category === d.category);
+                    return { ...d, count: found ? found.count : 0 };
+                });
+                scroll.innerHTML = merged.map(c => `
+                    <div class="category-card category-link" onclick="filterCategory('${c.category}')">
+                        <div class="cat-icon"><i class="fas ${c.icon}"></i></div>
+                        <h3>${c.category}</h3>
+                        <span class="cat-count">${c.count}+ items</span>
+                    </div>
+                `).join('');
+            } catch(e) { console.error(e); }
         }
 
         // ---------- Products ----------
         let currentCategory = 'all';
         async function loadProducts(category = 'all', query = '') {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = '<p>Loading...</p>';
+            grid.innerHTML = '<p style="text-align:center;">Loading...</p>';
             try {
                 let url = `${API}/products?category=${category}`;
                 if (query) url += `&q=${encodeURIComponent(query)}`;
@@ -167,7 +309,12 @@
         }
 
         function filterCategory(cat) { currentCategory = cat; loadProducts(cat); }
-        function handleSearch(e) { e.preventDefault(); const q = document.getElementById('search-input').value.trim(); loadProducts(currentCategory, q); }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('search-input').value.trim();
+            loadProducts(currentCategory, q);
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             loadStats(); loadCategories(); loadProducts(); updateNav();
