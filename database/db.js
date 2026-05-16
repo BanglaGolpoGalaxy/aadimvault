@@ -18,7 +18,7 @@ async function getDB() {
     saveDB();
   }
 
-  // ---------- Create tables if not exist ----------
+  // ---------- Create tables ----------
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,6 +40,7 @@ async function getDB() {
       for_sale INTEGER DEFAULT 1,
       display_only INTEGER DEFAULT 0,
       auction INTEGER DEFAULT 0,
+      category TEXT DEFAULT 'other',
       image TEXT,
       images TEXT,
       pdf TEXT,
@@ -64,18 +65,14 @@ async function getDB() {
     )
   `);
 
-  // ---------- Migration: add missing columns safely ----------
+  // ---------- Migration ----------
   const addColumnIfNotExists = (table, column, type) => {
-    try {
-      db.run(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
-    } catch (e) {
-      // column already exists – ignore
-    }
+    try { db.run(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`); } catch (e) {}
   };
-
   addColumnIfNotExists('products', 'images', 'TEXT');
   addColumnIfNotExists('products', 'pdf', 'TEXT');
   addColumnIfNotExists('products', 'auction_end', 'TEXT');
+  addColumnIfNotExists('products', 'category', "TEXT DEFAULT 'other'");
 
   saveDB();
   return db;

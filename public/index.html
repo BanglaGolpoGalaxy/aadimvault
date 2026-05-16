@@ -1,230 +1,177 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আদিম ভল্ট | ঐতিহ্য, ইতিহাস, আমাদের গর্ব</title>
-    <meta name="description" content="আদিম ভল্ট — পৃথিবীর হারানো ঐতিহ্যের ভার্চুয়াল ভাণ্ডার। নিলাম, গল্প, সংগ্রহ।">
-
-    <!-- Google Fonts -->
+    <title data-en="AadimVault | A Reliquium" data-bn="আদিম ভল্ট | রিলিকুইয়াম">AadimVault | A Reliquium</title>
+    <meta name="description" content="AadimVault — Where Forgotten Objects Live Again. A global digital vault for old objects, stories, auctions.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; }
+        body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Poppins', sans-serif; }
+        .lang-toggle { display: flex; gap: 6px; margin-left: 8px; }
+        .lang-btn { background: var(--surface2, #f5efe0); border: 1px solid var(--border, #dcc8a0); padding: 4px 10px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .lang-btn.active { background: var(--primary, #8b5a2b); color: #fff; }
+        .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--primary); display: block; }
+        .category-link { cursor: pointer; }
+        .category-link:hover { background: var(--accent); color: #fff; }
+    </style>
 </head>
-<body class="light" data-lang="bn">
+<body class="light" data-lang="en">
 
-    <!-- ==================== TOP BAR ==================== -->
-    <div id="top-bar">
-        <div class="container top-bar-content">
-            <span class="top-bar-text"><i class="fas fa-globe"></i> বিশ্বজনীন ভল্ট — ৬০,০০০+ নিবন্ধিত সদস্য</span>
-            <div class="top-bar-right">
-                <a href="#" class="lang-switch" onclick="switchLanguage('bn')">বাংলা</a>
-                <span class="top-divider">|</span>
-                <a href="#" class="lang-switch" onclick="switchLanguage('en')">English</a>
-                <span class="top-divider">|</span>
-                <button class="theme-btn-small" onclick="toggleTheme()" aria-label="থিম">🌙</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== NAVIGATION ==================== -->
     <header id="main-header">
         <div class="container nav-wrapper">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">🏛️</span>
-                <div class="logo-text-group">
-                    <span class="logo-text">আদিম ভল্ট</span>
-                    <span class="logo-sub">AadimVault — A Reliqium</span>
-                </div>
-            </a>
-
-            <!-- সার্চ বার -->
+            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">AadimVault</span></a>
             <div class="search-wrapper">
                 <form class="search-form" onsubmit="handleSearch(event)">
-                    <input type="text" id="search-input" class="search-input" placeholder="পুরনো মুদ্রা, প্রাচীন পান্ডুলিপি খুঁজুন...">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search old coins, manuscripts..." data-en-placeholder="Search old coins, manuscripts..." data-bn-placeholder="পুরনো মুদ্রা, পান্ডুলিপি খুঁজুন...">
                     <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-
-            <nav class="main-nav" id="mainNav">
-                <a href="index.html" class="active">হোম</a>
-                <a href="#">বাজার</a>
-                <a href="#">নিলাম</a>
-                <a href="#">গল্প</a>
-                <span id="auth-area">
-                    <a href="login.html"><i class="fas fa-user"></i> লগইন</a>
-                </span>
-                <a href="upload.html" class="btn-add"><i class="fas fa-plus-circle"></i> যোগ করুন</a>
-                <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="থিম পরিবর্তন">🌙</button>
+            <nav class="main-nav">
+                <a href="index.html" class="active" data-en="Home" data-bn="হোম">Home</a>
+                <a href="upload.html" data-en="Add" data-bn="যোগ করুন">Add</a>
+                <a href="login.html" data-en="Login" data-bn="লগইন">Login</a>
+                <span id="auth-area"></span>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="bn">বাংলা</button>
+                </div>
+                <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
             </nav>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('show')">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
-    <!-- ==================== HERO SECTION ==================== -->
-    <section class="hero" id="hero">
+    <section class="hero">
         <div class="hero-content container">
-            <h1 class="hero-title">আদিম ভল্ট</h1>
-            <p class="hero-subtitle">ঐতিহ্য, ইতিহাস, আমাদের গর্ব</p>
-            <p class="hero-desc">পৃথিবীর বিভিন্ন প্রান্তের হারিয়ে যাওয়া ঐতিহ্য, স্মৃতি ও ইতিহাস এখানে নিন্দিত ঠিকানা পায়। যে সব মূল্যবান জাদুঘরে জায়গা পায়নি, সেগুলোর জন্য এই ভার্চুয়াল ভল্ট।</p>
+            <h1 class="hero-title">AadimVault</h1>
+            <p class="hero-subtitle" data-en="A Reliquium — Where Forgotten Objects Live Again" data-bn="একটি রিলিকুইয়াম — যেখানে বিস্মৃত বস্তু আবার বেঁচে ওঠে">A Reliquium — Where Forgotten Objects Live Again</p>
+            <p class="hero-desc" data-en="A global digital vault for heritage, stories, and curios. Explore, collect, and share history." data-bn="ঐতিহ্য, গল্প ও কৌতূহলপূর্ণ জিনিসের জন্য একটি বিশ্বজনীন ডিজিটাল ভল্ট। ইতিহাস ঘুরে দেখুন, সংগ্রহ করুন ও ভাগ করে নিন।">A global digital vault for heritage, stories, and curios. Explore, collect, and share history.</p>
             <div class="hero-buttons">
-                <a href="#featured" class="btn btn-hero">এক্সপ্লোর করুন <i class="fas fa-arrow-right"></i></a>
-                <a href="#stories" class="btn btn-hero-outline">আমাদের সম্পর্কে <i class="fas fa-info-circle"></i></a>
+                <a href="#featured" class="btn btn-hero" data-en="Explore" data-bn="এক্সপ্লোর">Explore</a>
             </div>
         </div>
     </section>
 
-    <!-- ==================== STATS BAR ==================== -->
     <section class="stats-bar">
-        <div class="container stats-grid">
-            <div class="stat-item"><span class="stat-number">60,000+</span> নিবন্ধিত সদস্য</div>
-            <div class="stat-item"><span class="stat-number">30,000+</span> ঐতিহ্যবাহী বস্তু</div>
-            <div class="stat-item"><span class="stat-number">6,000+</span> সফল নিলাম</div>
-            <div class="stat-item"><span class="stat-number">100+</span> দেশের সংগ্রাহক</div>
+        <div class="container stats-grid" id="stats-grid">
+            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Members" data-bn="সদস্য">Members</span></div>
+            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Objects" data-bn="বস্তু">Objects</span></div>
+            <div class="stat-item"><span class="stat-number">...</span> <span data-en="Auctions" data-bn="নিলাম">Auctions</span></div>
         </div>
     </section>
 
-    <!-- ==================== POPULAR CATEGORIES ==================== -->
-    <section class="section container" id="categories">
-        <div class="section-header">
-            <h2>জনপ্রিয় ক্যাটাগরি</h2>
-            <a href="#" class="section-link">সব ক্যাটাগরি <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="scrollable-row" id="category-scroll">
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-monument"></i></div><h3>প্রাচীন মূর্তি ও ভাস্কর</h3><span class="cat-count">১,৪২০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-coins"></i></div><h3>মুদ্রা ও প্রত্নসম্পদ</h3><span class="cat-count">২,৩১০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-mask"></i></div><h3>আদিবাসী শিল্পকর্ম</h3><span class="cat-count">১,৪৭০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-scroll"></i></div><h3>পান্ডুলিপি ও দলিল</h3><span class="cat-count">৯৭০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-shield-haltered"></i></div><h3>অস্ত্র ও সামরিক</h3><span class="cat-count">১,৩৬০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-book"></i></div><h3>বই ও শিক্ষা</h3><span class="cat-count">১,৫০০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-gem"></i></div><h3>গহনা ও রত্ন</h3><span class="cat-count">৮৪০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-jar"></i></div><h3>মাটির পাত্র</h3><span class="cat-count">৬২০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-clock"></i></div><h3>ঘড়ি ও যন্ত্র</h3><span class="cat-count">৪৯০+ আইটেম</span></div>
-            <div class="category-card"><div class="cat-icon"><i class="fas fa-camera-retro"></i></div><h3>ক্যামেরা ও ফটো</h3><span class="cat-count">৩৭০+ আইটেম</span></div>
-        </div>
+    <section class="section container" id="categories-section">
+        <div class="section-header"><h2 data-en="Popular Categories" data-bn="জনপ্রিয় ক্যাটাগরি">Popular Categories</h2></div>
+        <div class="category-grid" id="category-grid">Loading...</div>
     </section>
 
-    <!-- ==================== LIVE AUCTIONS ==================== -->
-    <section class="section bg-alt" id="auctions">
-        <div class="container">
-            <div class="section-header">
-                <h2>চলমান নিলাম</h2>
-                <a href="#" class="section-link">সব নিলাম দেখুন <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="scrollable-row" id="auction-scroll">
-                <div class="auction-card">
-                    <div class="auction-img"><i class="fas fa-gem"></i></div>
-                    <div class="auction-info">
-                        <h3>পাল যুগের ব্রোঞ্জ মূর্তি</h3>
-                        <span class="auction-price">₹ ১,২৫,০০০</span>
-                        <span class="auction-timer" data-end="2026-12-31T23:59:59"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
-                    </div>
-                </div>
-                <div class="auction-card">
-                    <div class="auction-img"><i class="fas fa-ring"></i></div>
-                    <div class="auction-info">
-                        <h3>চকমকি প্রাচীন হার</h3>
-                        <span class="auction-price">₹ ১,৮৫০</span>
-                        <span class="auction-timer" data-end="2026-12-25T12:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
-                    </div>
-                </div>
-                <div class="auction-card">
-                    <div class="auction-img"><i class="fas fa-coins"></i></div>
-                    <div class="auction-info">
-                        <h3>ইন্দো-গ্রিক মুদ্রা</h3>
-                        <span class="auction-price">₹ ১,৪০,০০০</span>
-                        <span class="auction-timer" data-end="2026-12-20T18:30:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
-                    </div>
-                </div>
-                <div class="auction-card">
-                    <div class="auction-img"><i class="fas fa-crown"></i></div>
-                    <div class="auction-info">
-                        <h3>চীন রাজবংশের পার্ক</h3>
-                        <span class="auction-price">₹ ১,০০,০০০</span>
-                        <span class="auction-timer" data-end="2026-12-18T15:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
-                    </div>
-                </div>
-                <div class="auction-card">
-                    <div class="auction-img"><i class="fas fa-necklace"></i></div>
-                    <div class="auction-info">
-                        <h3>অ্যাজটেক সোনার হার</h3>
-                        <span class="auction-price">₹ ২,১০,০০০</span>
-                        <span class="auction-timer" data-end="2026-12-22T10:00:00"><i class="fas fa-hourglass-half"></i> ০১ দিন ১৪ ঘণ্টা</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== FEATURED ITEMS (API থেকে লোড) ==================== -->
     <section class="section container" id="featured">
-        <div class="section-header">
-            <h2>সম্প্রতি সংরক্ষিত স্মৃতি</h2>
-            <a href="#" class="section-link">সব দেখুন <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="product-grid" id="product-grid">
-            <p style="text-align:center;width:100%;">Loading products...</p>
-        </div>
+        <div class="section-header"><h2 data-en="Recently Added" data-bn="সম্প্রতি যোগকৃত">Recently Added</h2></div>
+        <div class="product-grid" id="product-grid">Loading...</div>
     </section>
 
-    <!-- ==================== COMMUNITY STORIES ==================== -->
-    <section class="section bg-alt" id="stories">
-        <div class="container">
-            <div class="section-header">
-                <h2>কমিউনিটি গল্প</h2>
-                <a href="#" class="section-link">সব গল্প দেখুন <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="story-grid">
-                <div class="story-card"><p class="story-text">"একটি পান্ডুলিপি থেকে এক টুকরো ইতিহাসের সন্ধান পেয়েছি, যা আমার পরিবারের অজানা গল্প বলে।"</p><div class="story-author"><strong>Saiful Islam</strong></div></div>
-                <div class="story-card"><p class="story-text">"হারিয়ে যাওয়া ম্যাপ থেকে জানতে পারলাম আমার গ্রামের প্রাচীন বাণিজ্যপথের কথা।"</p><div class="story-author"><strong>Mousumi Akter</strong></div></div>
-                <div class="story-card"><p class="story-text">"আদিম ভল্টে জমা রাখা আমার ঠাকুরদার ঘড়িটি এখনো ঠিক সময় দেয়, আর গল্প শোনায়।"</p><div class="story-author"><strong>Rifat Khan</strong></div></div>
-                <div class="story-card"><p class="story-text">"একটি পুরনো মুখোশ থেকে আবিষ্কার করলাম নেপালের লুপ্ত এক উপজাতির ইতিহাস।"</p><div class="story-author"><strong>Sadia Mim</strong></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== FOOTER ==================== -->
     <footer id="site-footer">
-        <div class="container footer-grid">
-            <div class="footer-col">
-                <h3><span class="logo-icon">🏛️</span> আদিম ভল্ট</h3>
-                <p>ঐতিহ্য, ইতিহাস, আমাদের গর্ব।<br>পৃথিবীর প্রাচীন সম্পদ ও গল্প সংরক্ষণের ডিজিটাল ভল্ট।</p>
-            </div>
-            <div class="footer-col">
-                <h4>প্রধান লিংক</h4>
-                <ul><li><a href="#">বাজার</a></li><li><a href="#">নিলাম</a></li><li><a href="#">বিনিময়</a></li><li><a href="#">গল্প</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h4>সহায়তা</h4>
-                <ul><li><a href="#">কীভাবে কাজ করে</a></li><li><a href="#">পেমেন্ট</a></li><li><a href="#">গোপনীয়তা</a></li><li><a href="#">সাহায্য</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h4>কমিউনিটি</h4>
-                <ul><li><a href="#">ব্লগ</a></li><li><a href="#">গ্যালারি</a></li><li><a href="#">যোগাযোগ</a></li></ul>
-            </div>
-            <div class="footer-col footer-newsletter">
-                <h4>নিউজলেটার</h4>
-                <p>নতুন সংগ্রহের খবর পেতে সাবস্ক্রাইব করো।</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('ধন্যবাদ!')">
-                    <input type="email" placeholder="আপনার ইমেইল" required>
-                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom container">
-            <p>&copy; 2026 আদিম ভল্ট — A Reliqium Where Forgotten Objects Live Again</p>
+        <div class="container" style="text-align: center; padding: 24px;">
+            <p>&copy; 2026 AadimVault — The Primeval Vault of Stories & Curios</p>
         </div>
     </footer>
 
     <script src="js/auth.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        const API = '/api';
+
+        // ---------- Theme ----------
+        function toggleTheme() {
+            document.body.classList.toggle('dark'); document.body.classList.toggle('light');
+            const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            document.getElementById('theme-toggle').innerHTML = theme === 'dark' ? '☀️' : '🌙';
+        }
+        (function() {
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); document.body.classList.remove('light'); document.getElementById('theme-toggle').innerHTML = '☀️'; }
+        })();
+
+        // ---------- Language ----------
+        function switchLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('aadimvault-lang', lang);
+            document.querySelectorAll('[data-en][data-bn]').forEach(el => { el.textContent = el.getAttribute(`data-${lang}`); });
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+        }
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => switchLang(btn.dataset.lang)));
+        switchLang(localStorage.getItem('aadimvault-lang') || 'en');
+
+        // ---------- Auth Nav ----------
+        function updateNav() {
+            const area = document.getElementById('auth-area');
+            if (!area) return;
+            if (Auth.isLoggedIn()) {
+                const u = Auth.getUser();
+                area.innerHTML = `<span>👤 ${u.name||'User'}</span> <a href="#" onclick="Auth.logout();return false;" data-en="Logout" data-bn="লগআউট">Logout</a>`;
+            } else {
+                area.innerHTML = `<a href="login.html" data-en="Login" data-bn="লগইন">Login</a>`;
+            }
+        }
+
+        // ---------- Stats ----------
+        async function loadStats() {
+            try {
+                const res = await fetch(`${API}/products/stats`);
+                const data = await res.json();
+                const nums = document.querySelectorAll('#stats-grid .stat-number');
+                if (nums.length >= 3) {
+                    nums[0].textContent = data.totalUsers || 0;
+                    nums[1].textContent = data.totalProducts || 0;
+                    nums[2].textContent = data.totalBids || 0;
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        // ---------- Categories ----------
+        async function loadCategories() {
+            const grid = document.getElementById('category-grid');
+            try {
+                const res = await fetch(`${API}/products/categories`);
+                const cats = await res.json();
+                grid.innerHTML = cats.map(c => `<div class="category-card category-link" onclick="filterCategory('${c.category}')">
+                    <div class="cat-icon"><i class="fas fa-box"></i></div>
+                    <h3>${c.category}</h3><span class="cat-count">${c.count} items</span>
+                </div>`).join('') || '<p>No categories yet.</p>';
+            } catch(e) { grid.innerHTML = '<p>Error loading.</p>'; }
+        }
+
+        // ---------- Products ----------
+        let currentCategory = 'all';
+        async function loadProducts(category = 'all', query = '') {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '<p>Loading...</p>';
+            try {
+                let url = `${API}/products?category=${category}`;
+                if (query) url += `&q=${encodeURIComponent(query)}`;
+                const res = await fetch(url);
+                const products = await res.json();
+                grid.innerHTML = products.length ? products.map(p => {
+                    const img = p.image ? `<img src="${p.image}" class="product-img" alt="${p.title}">` : '<div class="card-img">🏺</div>';
+                    const price = p.for_sale ? `<span class="product-price">₹${Number(p.price).toFixed(2)}</span>` : '';
+                    const story = (p.story_en || p.story_local || p.description || '').slice(0, 100);
+                    return `<article class="product-card">${img}<div class="card-badges">${p.auction?'<span class="badge auction">Auction</span>':''}${p.for_sale?'<span class="badge sale">Sale</span>':''}${p.display_only?'<span class="badge display">Display</span>':''}</div><h3>${p.title}</h3><p class="card-story">${story}</p>${price}<a href="product.html?id=${p.id}" class="btn btn-small" data-en="Details" data-bn="বিস্তারিত">Details</a></article>`;
+                }).join('') : '<p style="text-align:center;">No products yet.</p>';
+            } catch(e) { grid.innerHTML = '<p style="color:red;">Failed to load.</p>'; }
+        }
+
+        function filterCategory(cat) { currentCategory = cat; loadProducts(cat); }
+        function handleSearch(e) { e.preventDefault(); const q = document.getElementById('search-input').value.trim(); loadProducts(currentCategory, q); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats(); loadCategories(); loadProducts(); updateNav();
+        });
+    </script>
 </body>
 </html>
