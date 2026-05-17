@@ -1,106 +1,433 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>লগইন | আদিম ভল্ট</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Login | Aadim Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        .auth-container { max-width: 450px; margin: 60px auto; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); padding: 30px; }
-        .auth-tabs { display: flex; margin-bottom: 25px; border-radius: 30px; background: var(--bg-alt); overflow: hidden; }
-        .auth-tab { flex: 1; text-align: center; padding: 10px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-light); font-size: 1rem; transition: 0.2s; }
-        .auth-tab.active { background: var(--primary); color: #fff; border-radius: 30px; }
-        .auth-form { display: none; flex-direction: column; gap: 16px; }
-        .auth-form.active { display: flex; }
-        .auth-form label { font-weight: 600; font-size: 0.9rem; }
-        .auth-form input { padding: 12px; border: 1px solid var(--accent); border-radius: 8px; background: var(--bg); color: var(--text); font-family: inherit; }
-        .auth-btn { background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 1rem; margin-top: 8px; }
-        .auth-message { text-align: center; margin-top: 15px; }
+        :root {
+            --gold: #7a4d1d;
+            --gold-light: #d7a96b;
+            --card: #f8f1e4;
+            --bg: #f3eadb;
+            --text: #3d2412;
+            --text-secondary: #6b5a4a;
+            --border: #d6c2a8;
+            --input-bg: #fdfaf5;
+        }
+        body.dark {
+            --gold: #d7a96b;
+            --gold-light: #e8c98e;
+            --card: #1a1410;
+            --bg: #0f0b08;
+            --text: #f3e5d0;
+            --text-secondary: #bfa88a;
+            --border: #3a2b1d;
+            --input-bg: #1f1812;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 28px;
+            padding: 36px 28px 28px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            transition: background 0.3s, border 0.3s;
+        }
+
+        /* ---------- TOP BAR: LANGUAGE + THEME ---------- */
+        .login-topbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .icon-btn:hover {
+            background: var(--gold);
+            color: white;
+        }
+
+        /* ---------- SVG LOCK + KEY ---------- */
+        .lock-wrapper {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 16px;
+            cursor: default;
+        }
+        .lock-wrapper svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
+        }
+        #keyGroup {
+            cursor: pointer;
+            transition: transform 0.4s ease-in-out;
+        }
+        #giftGroup {
+            opacity: 0;
+            transform: scale(0.5);
+            transform-origin: 80px 60px;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .keyhole-open {
+            fill: #facc15 !important;
+            transition: fill 0.3s;
+        }
+
+        /* ---------- FORM ---------- */
+        .form-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* ---------- PASSWORD FIELD (hidden until unlock) ---------- */
+        #passwordField {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 28px;
+            border: none;
+            background: var(--gold);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 6px;
+        }
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ---------- TABS ---------- */
+        .tab-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 8px 22px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        /* ---------- MESSAGE ---------- */
+        .message {
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-height: 24px;
+        }
+
+        /* ---------- GUIDELINES ---------- */
+        .guidelines {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .guidelines h4 {
+            margin-bottom: 8px;
+            color: var(--gold);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 480px) {
+            .login-card { padding: 24px 16px 20px; }
+        }
     </style>
 </head>
-<body class="light" data-lang="bn">
-    <header id="main-header">
-        <div class="container nav-wrapper">
-            <a href="index.html" class="logo"><span class="logo-icon">🏛️</span><span class="logo-text">আদিম ভল্ট</span></a>
-            <nav class="main-nav">
-                <a href="index.html">হোম</a>
-                <a href="upload.html">যোগ করুন</a>
-                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-            </nav>
-        </div>
-    </header>
+<body>
 
-    <div class="auth-container">
-        <div class="auth-tabs">
-            <button class="auth-tab active" onclick="switchTab('login')">লগইন</button>
-            <button class="auth-tab" onclick="switchTab('register')">রেজিস্টার</button>
+    <div class="login-container">
+        <!-- TOP BAR -->
+        <div class="login-topbar">
+            <button class="icon-btn" id="langToggleBtn" title="Switch Language">🌐</button>
+            <button class="icon-btn" id="themeToggleBtn" title="Toggle Theme">🌙</button>
         </div>
 
-        <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
-            <label>ইমেইল</label>
-            <input type="email" id="login-email" placeholder="example@mail.com" required>
-            <label>পাসওয়ার্ড</label>
-            <input type="password" id="login-password" placeholder="পাসওয়ার্ড" required>
-            <button type="submit" class="auth-btn">লগইন</button>
-        </form>
+        <div class="login-card">
+            <!-- TAB ROW -->
+            <div class="tab-row">
+                <button class="tab-btn active" id="loginTabBtn">Login</button>
+                <button class="tab-btn" id="registerTabBtn">Register</button>
+            </div>
 
-        <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
-            <label>নাম</label>
-            <input type="text" id="reg-name" placeholder="আপনার নাম" required>
-            <label>ইমেইল</label>
-            <input type="email" id="reg-email" placeholder="example@mail.com" required>
-            <label>পাসওয়ার্ড</label>
-            <input type="password" id="reg-password" placeholder="কমপক্ষে ৬ অক্ষর" minlength="6" required>
-            <button type="submit" class="auth-btn">রেজিস্টার</button>
-        </form>
+            <!-- LOCK + KEY SVG -->
+            <div class="lock-wrapper" id="lockWrapper">
+                <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7a4d1d" />
+                            <stop offset="100%" stop-color="#d7a96b" />
+                        </linearGradient>
+                        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#facc15" stop-opacity="0.9" />
+                            <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+                    <circle cx="80" cy="80" r="68" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.4"/>
+                    <rect x="52" y="68" width="56" height="44" rx="8" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.5"/>
+                    <path d="M60 68 L60 52 Q60 38 80 38 Q100 38 100 52 L100 68" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+                    <circle cx="80" cy="84" r="5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1.2"/>
+                    <rect x="77.5" y="84" width="5" height="10" rx="1.5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1"/>
+                    <g id="keyGroup" onclick="unlockVault()">
+                        <rect x="108" y="68" width="24" height="5" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                        <rect x="124" y="58" width="5" height="24" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                        <circle cx="126" cy="84" r="7" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                    </g>
+                    <g id="giftGroup">
+                        <circle cx="80" cy="28" r="22" fill="url(#glowGrad)" />
+                        <text x="80" y="35" text-anchor="middle" font-size="18">🎁</text>
+                    </g>
+                </svg>
+            </div>
 
-        <div id="auth-message" class="auth-message"></div>
+            <!-- FORM -->
+            <form id="authForm">
+                <!-- NAME (register only) -->
+                <div class="form-group" id="nameGroup" style="display:none;">
+                    <label data-en="Full Name" data-bn="পূর্ণ নাম">Full Name</label>
+                    <input type="text" id="regName" placeholder="Enter your name">
+                </div>
+
+                <!-- EMAIL -->
+                <div class="form-group">
+                    <label data-en="Email" data-bn="ইমেইল">Email</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+
+                <!-- PASSWORD (hidden until unlock for login, always visible for register) -->
+                <div class="form-group" id="passwordField">
+                    <label data-en="Password" data-bn="পাসওয়ার্ড">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" minlength="6">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" data-en="Login" data-bn="লগইন">Login</button>
+            </form>
+
+            <div class="message" id="message"></div>
+        </div>
+
+        <!-- GUIDELINES -->
+        <div class="guidelines" id="guidelinesBox">
+            <h4 data-en="🔐 How to Login" data-bn="🔐 কিভাবে লগইন করবেন">🔐 How to Login</h4>
+            <ul>
+                <li data-en="Click the key beside the lock to unlock the password field." data-bn="তালার পাশের চাবিতে ক্লিক করলে পাসওয়ার্ড ফিল্ড খুলবে।">Click the key beside the lock to unlock the password field.</li>
+                <li data-en="New here? Switch to Register tab to create an account." data-bn="নতুন? রেজিস্টার ট্যাবে গিয়ে অ্যাকাউন্ট তৈরি করুন।">New here? Switch to Register tab to create an account.</li>
+                <li data-en="Forgot password? Contact us via the link in footer." data-bn="পাসওয়ার্ড ভুলে গেছেন? ফুটারের লিংক থেকে যোগাযোগ করুন।">Forgot password? Contact us via the link in footer.</li>
+            </ul>
+        </div>
     </div>
 
     <script src="js/auth.js"></script>
     <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', false));
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            if (tab === 'login') {
-                document.querySelector('.auth-tab:first-child').classList.add('active');
-                document.getElementById('login-form').classList.add('active');
-            } else {
-                document.querySelector('.auth-tab:last-child').classList.add('active');
-                document.getElementById('register-form').classList.add('active');
-            }
-            document.getElementById('auth-message').innerHTML = '';
+        // ---------- STATE ----------
+        let isLogin = true;
+        let isUnlocked = false;
+        let currentLang = localStorage.getItem('aadimvault-lang') || 'en';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        // ---------- DOM ----------
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const nameGroup = document.getElementById('nameGroup');
+        const passwordField = document.getElementById('passwordField');
+        const submitBtn = document.getElementById('submitBtn');
+        const msgDiv = document.getElementById('message');
+        const lockWrapper = document.getElementById('lockWrapper');
+
+        // ---------- THEME ----------
+        function applyTheme(t) {
+            currentTheme = t;
+            if (t === 'dark') { document.body.classList.add('dark'); }
+            else { document.body.classList.remove('dark'); }
+            localStorage.setItem('theme', t);
+        }
+        applyTheme(currentTheme);
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+        });
+
+        // ---------- LANGUAGE ----------
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('aadimvault-lang', lang);
+            document.querySelectorAll('[data-en][data-bn]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+        }
+        applyLang(currentLang);
+        document.getElementById('langToggleBtn').addEventListener('click', () => {
+            applyLang(currentLang === 'en' ? 'bn' : 'en');
+        });
+
+        // ---------- TAB SWITCH ----------
+        loginTabBtn.addEventListener('click', () => switchTab(true));
+        registerTabBtn.addEventListener('click', () => switchTab(false));
+
+        function switchTab(login) {
+            isLogin = login;
+            loginTabBtn.classList.toggle('active', login);
+            registerTabBtn.classList.toggle('active', !login);
+            nameGroup.style.display = login ? 'none' : 'block';
+            passwordField.style.display = login ? (isUnlocked ? 'block' : 'none') : 'block';
+            submitBtn.textContent = login ? (currentLang === 'bn' ? 'লগইন' : 'Login') : (currentLang === 'bn' ? 'রেজিস্টার' : 'Register');
+            msgDiv.textContent = '';
+            if (!login) { isUnlocked = true; resetLock(); }
         }
 
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            try {
-                const data = await Auth.login(email, password);
-                document.getElementById('auth-message').innerHTML = '<p style="color:green;">লগইন সফল! রিডাইরেক্ট হচ্ছে…</p>';
-                setTimeout(() => { window.location.href = 'index.html'; }, 800);
-            } catch (err) {
-                document.getElementById('auth-message').innerHTML = `<p style="color:red;">${err.message}</p>`;
-            }
+        // ---------- UNLOCK ANIMATION ----------
+        function unlockVault() {
+            if (!isLogin) return;
+            if (isUnlocked) return;
+            isUnlocked = true;
+
+            const keyGroup = document.getElementById('keyGroup');
+            const giftGroup = document.getElementById('giftGroup');
+            const keyholeCircle = document.querySelector('#lockWrapper circle:nth-of-type(4)');
+
+            keyGroup.style.transform = 'translateX(-32px) rotate(12deg)';
+            setTimeout(() => {
+                keyGroup.style.opacity = '0';
+                if (keyholeCircle) keyholeCircle.classList.add('keyhole-open');
+                giftGroup.style.opacity = '1';
+                giftGroup.style.transform = 'scale(1)';
+                passwordField.style.display = 'block';
+            }, 700);
+
+            setTimeout(() => {
+                keyGroup.style.transform = 'translateX(0) rotate(0)';
+                keyGroup.style.opacity = '1';
+                if (keyholeCircle) keyholeCircle.classList.remove('keyhole-open');
+                giftGroup.style.opacity = '0';
+                giftGroup.style.transform = 'scale(0.5)';
+            }, 3000);
         }
 
-        async function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            try {
-                await Auth.register(name, email, password);
-                document.getElementById('auth-message').innerHTML = '<p style="color:green;">রেজিস্ট্রেশন সফল! এখন লগইন করুন।</p>';
-                switchTab('login');
-                document.getElementById('login-email').value = email;
-                document.getElementById('login-password').value = '';
-            } catch (err) {
-                document.getElementById('auth-message').innerHTML = `<p style="color:red;">${err.message}</p>`;
-            }
+        function resetLock() {
+            const keyGroup = document.getElementById('keyGroup');
+            const giftGroup = document.getElementById('giftGroup');
+            keyGroup.style.transform = 'translateX(0) rotate(0)';
+            keyGroup.style.opacity = '1';
+            giftGroup.style.opacity = '0';
+            giftGroup.style.transform = 'scale(0.5)';
         }
+
+        // ---------- FORM SUBMIT ----------
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            msgDiv.textContent = '';
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!email || !password) {
+                msgDiv.innerHTML = '<span style="color:#ef4444;">❌ All fields are required.</span>';
+                return;
+            }
+
+            try {
+                if (isLogin) {
+                    const data = await Auth.login(email, password);
+                    msgDiv.innerHTML = '<span style="color:green;">✅ Login successful! Redirecting...</span>';
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                } else {
+                    const name = document.getElementById('regName').value.trim();
+                    if (!name) {
+                        msgDiv.innerHTML = '<span style="color:#ef4444;">❌ Name is required.</span>';
+                        return;
+                    }
+                    const data = await Auth.register(name, email, password);
+                    // GIFT animation
+                    const giftGroup = document.getElementById('giftGroup');
+                    giftGroup.style.opacity = '1';
+                    giftGroup.style.transform = 'scale(1)';
+                    msgDiv.innerHTML = '<span style="color:green;">🎁 Registration successful! Redirecting...</span>';
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1800);
+                }
+            } catch (err) {
+                msgDiv.innerHTML = `<span style="color:#ef4444;">❌ ${err.message}</span>`;
+            }
+        });
     </script>
 </body>
 </html>
