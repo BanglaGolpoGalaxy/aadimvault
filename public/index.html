@@ -10,6 +10,61 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ---------- মোবাইল হিরো ফিক্স ---------- */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-right {
+                order: -1;
+                margin-bottom: 20px;
+            }
+            .hero-right img {
+                height: 300px;
+                border-radius: 24px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                border: 4px solid var(--gold);
+            }
+            .features {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+            }
+        }
+
+        /* ---------- ডেস্কটপ হিরো ---------- */
+        .hero-right img {
+            border-radius: 30px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            border: 4px solid var(--gold);
+            transition: transform 0.3s;
+        }
+        .hero-right img:hover {
+            transform: scale(1.02);
+        }
+
+        /* ---------- সেটিংস টগল ---------- */
+        .settings-toggle {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .icon-btn:hover {
+            background: var(--gold);
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -32,6 +87,8 @@
         
         <div class="top-actions">
             <a href="upload.html" class="add-btn"><i class="fas fa-plus"></i> <span data-en="Add" data-bn="যোগ করুন">Add</span></a>
+            <button class="icon-btn" id="langToggle" title="Switch Language">🌐</button>
+            <button class="icon-btn" id="themeToggle" title="Toggle Theme">🌙</button>
             <button class="profile-trigger" id="profileTrigger" title="Profile">
                 <i class="fas fa-user-circle" style="font-size: 1.8rem;"></i>
             </button>
@@ -47,11 +104,11 @@
             <p data-en="A virtual world preserving lost civilizations, ancient memories and cultural heritage." data-bn="পৃথিবীর বিভিন্ন প্রান্তের হারিয়ে যাওয়া সভ্যতা, শিল্পকর্ম, স্মৃতি ও ইতিহাসকে একত্রিত করার একটি ভার্চুয়াল জগৎ।">A virtual world preserving lost civilizations, ancient memories and cultural heritage.</p>
             <div class="hero-buttons">
                 <button class="primary-btn" id="exploreBtn" data-en="Explore" data-bn="এক্সপ্লোর করুন">Explore</button>
-                <button class="secondary-btn" data-en="About Us" data-bn="আমাদের সম্পর্কে">About Us</button>
+                <a href="about.html" class="secondary-btn" data-en="About Us" data-bn="আমাদের সম্পর্কে">About Us</a>
             </div>
         </div>
         <div class="hero-right">
-            <img src="images/aadim_vault.jpg" alt="Aadim Vault">
+            <img src="images/aadim_vault.jpg" alt="Aadim Vault Heritage">
         </div>
     </section>
 
@@ -66,25 +123,33 @@
     <!-- ==================== MARKET ==================== -->
     <section class="section" id="market">
         <div class="section-header"><h2 data-en="Popular Collections" data-bn="জনপ্রিয় সংগ্রহ">Popular Collections</h2><a href="#" data-en="View All" data-bn="সব দেখুন">View All</a></div>
-        <div class="cards-grid" id="productGrid"></div>
+        <div class="cards-grid" id="productGrid">
+            <!-- লাইভ API ডেটা, না থাকলে ডেমি -->
+        </div>
     </section>
 
     <!-- ==================== AUCTION & EXCHANGE ==================== -->
     <section class="dual-section">
         <div class="auction-box" id="auction">
             <div class="section-header"><h2 data-en="Live Auctions" data-bn="চলমান নিলাম">Live Auctions</h2></div>
-            <div id="auctionList"></div>
+            <div id="auctionList">
+                <div class="auction-item"><img src="images/aadim_vault.jpg" alt="Auction Item"><div><h3>Golden Coin</h3><p>Current Bid: ₹ 75,000</p><button class="primary-btn small">Bid Now</button></div></div>
+            </div>
         </div>
         <div class="exchange-box" id="exchange">
             <div class="section-header"><h2 data-en="Exchange" data-bn="বিনিময় বিভাগ">Exchange</h2></div>
-            <div id="exchangeList"></div>
+            <div id="exchangeList">
+                <div class="exchange-item"><p>Ancient Pot ↔ Brass Mask</p></div>
+            </div>
         </div>
     </section>
 
     <!-- ==================== STORIES ==================== -->
     <section class="section" id="stories">
         <div class="section-header"><h2 data-en="Community Stories" data-bn="কমিউনিটির গল্প">Community Stories</h2><a href="#" data-en="All Stories" data-bn="সব গল্প দেখুন">All Stories</a></div>
-        <div class="stories-grid" id="storiesGrid"></div>
+        <div class="stories-grid" id="storiesGrid">
+            <div class="story-card"><img src="images/aadim_vault.jpg" alt="Story"><div class="story-content"><h3>The Lost Manuscript</h3><p>A story about a forgotten diary...</p></div></div>
+        </div>
     </section>
 
     <!-- ==================== FOOTER ==================== -->
@@ -95,19 +160,20 @@
         </div>
         <div>
             <h4 data-en="Explore" data-bn="এক্সপ্লোর">Explore</h4>
-            <a href="#" data-en="How It Works" data-bn="কিভাবে কাজ করে">How It Works</a>
-            <a href="#" data-en="Guidelines" data-bn="নির্দেশনা">Guidelines</a>
-            <a href="#" data-en="Gallery" data-bn="গ্যালারি">Gallery</a>
-            <a href="#" data-en="Blog" data-bn="ব্লগ">Blog</a>
+            <a href="how-it-works.html" data-en="How It Works" data-bn="কিভাবে কাজ করে">How It Works</a>
+            <a href="guidelines.html" data-en="Guidelines" data-bn="নির্দেশনা">Guidelines</a>
+            <a href="gallery.html" data-en="Gallery" data-bn="গ্যালারি">Gallery</a>
+            <a href="blog.html" data-en="Blog" data-bn="ব্লগ">Blog</a>
         </div>
         <div>
             <h4 data-en="Support" data-bn="সহায়তা">Support</h4>
-            <a href="#" data-en="Security & Privacy" data-bn="নিরাপত্তা ও গোপনীয়তা">Security & Privacy</a>
-            <a href="#" data-en="Terms & Conditions" data-bn="শর্তাবলী">Terms & Conditions</a>
-            <a href="https://formspree.io/f/mjvqeyzo" target="_blank"><i class="fas fa-envelope"></i> <span data-en="Contact" data-bn="যোগাযোগ">Contact</span></a>
+            <a href="security-privacy.html" data-en="Security & Privacy" data-bn="নিরাপত্তা ও গোপনীয়তা">Security & Privacy</a>
+            <a href="terms.html" data-en="Terms & Conditions" data-bn="শর্তাবলী">Terms & Conditions</a>
+            <a href="https://formspree.io/f/mpqowyld" target="_blank"><i class="fas fa-envelope"></i> <span data-en="Contact" data-bn="যোগাযোগ">Contact</span></a>
         </div>
     </footer>
 
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
 </body>
