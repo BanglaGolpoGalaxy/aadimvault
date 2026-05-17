@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Aadim Vault</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-circle">AV</div>
+            <div><h2>Aadim Vault</h2></div>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="profile.html" class="active">Profile</a>
+        </nav>
+    </header>
+
+    <main class="section" style="max-width: 600px; margin: auto;">
+        <h2>My Profile</h2>
+        <div id="profile-info">
+            <p>Loading...</p>
+        </div>
+        <h3>Edit Profile</h3>
+        <form id="profile-form">
+            <label>Name</label>
+            <input type="text" id="profile-name" placeholder="Your name">
+            <label>Bio</label>
+            <textarea id="profile-bio" rows="3" placeholder="Tell about yourself..."></textarea>
+            <label>Profile Picture URL</label>
+            <input type="text" id="profile-pic" placeholder="https://...">
+            <button type="submit" class="primary-btn">Save</button>
+        </form>
+        <div id="profile-message"></div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+        if (!Auth.isLoggedIn()) {
+            alert('Please login first.');
+            window.location.href = 'login.html';
+        }
+
+        const user = Auth.getUser();
+        document.getElementById('profile-name').value = user.name || '';
+        document.getElementById('profile-bio').value = user.bio || '';
+        document.getElementById('profile-pic').value = user.pic || '';
+        document.getElementById('profile-info').innerHTML = `
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+        `;
+
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // Profile update API call (to be implemented)
+            document.getElementById('profile-message').innerHTML = '<span style="color:green;">Profile updated!</span>';
+        });
+    </script>
+</body>
+</html>

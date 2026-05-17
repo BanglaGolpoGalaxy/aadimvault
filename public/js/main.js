@@ -8,9 +8,6 @@ const langToggleBtn = document.getElementById('langToggleItem');
 const themeIcon = document.getElementById('themeIcon');
 const exploreBtn = document.getElementById('exploreBtn');
 const profileTrigger = document.getElementById('profileTrigger');
-const dropdownMenu = document.getElementById('dropdownMenu');
-const loginLink = document.getElementById('loginLink');
-const logoutLink = document.getElementById('logoutLink');
 
 // ---------- State ----------
 let currentLang = localStorage.getItem('aadimvault-lang') || 'en';
@@ -20,20 +17,22 @@ let currentTheme = localStorage.getItem('theme') || 'light';
 function applyTheme(theme) {
     if (theme === 'dark') {
         document.body.classList.add('dark');
-        themeIcon.textContent = '☀️';
+        if (themeIcon) themeIcon.textContent = '☀️';
     } else {
         document.body.classList.remove('dark');
-        themeIcon.textContent = '🌙';
+        if (themeIcon) themeIcon.textContent = '🌙';
     }
 }
 applyTheme(currentTheme);
 
 // ---------- Theme Toggle ----------
-themeToggleBtn.addEventListener('click', () => {
-    currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
-    applyTheme(currentTheme);
-    localStorage.setItem('theme', currentTheme);
-});
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+        applyTheme(currentTheme);
+        localStorage.setItem('theme', currentTheme);
+    });
+}
 
 // ---------- Apply Initial Language ----------
 function applyLang(lang) {
@@ -41,12 +40,10 @@ function applyLang(lang) {
     document.documentElement.lang = lang;
     localStorage.setItem('aadimvault-lang', lang);
     
-    // Update all data-en/data-bn elements
     document.querySelectorAll('[data-en][data-bn]').forEach(el => {
         el.textContent = el.getAttribute(`data-${lang}`);
     });
     
-    // Update toggle button text
     if (langToggleBtn) {
         langToggleBtn.innerHTML = lang === 'en' ? '<span>বাংলা</span>' : '<span>English</span>';
     }
@@ -61,44 +58,24 @@ if (langToggleBtn) {
     });
 }
 
-// ---------- Profile Dropdown ----------
-if (profileTrigger && dropdownMenu) {
-    profileTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('show');
+// ---------- Profile Redirect ----------
+if (profileTrigger) {
+    profileTrigger.addEventListener('click', () => {
+        window.location.href = 'profile.html';
     });
-    document.addEventListener('click', () => {
-        dropdownMenu.classList.remove('show');
-    });
-}
-
-// ---------- Auth Nav Update ----------
-function updateAuthUI() {
-    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
-        if (loginLink) loginLink.style.display = 'none';
-        if (logoutLink) {
-            logoutLink.style.display = 'block';
-            logoutLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                Auth.logout();
-            });
-        }
-        // Profile trigger icon update (optional)
-        const user = Auth.getUser();
-        if (profileTrigger && user) {
-            profileTrigger.innerHTML = `<i class="fas fa-user-circle" style="font-size:1.8rem;"></i>`;
-        }
-    } else {
-        if (loginLink) loginLink.style.display = 'block';
-        if (logoutLink) logoutLink.style.display = 'none';
-    }
 }
 
 // ---------- Explore Button ----------
 if (exploreBtn) {
     exploreBtn.addEventListener('click', () => {
-        document.getElementById('market').scrollIntoView({ behavior: 'smooth' });
+        const target = document.getElementById('market');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
+}
+
+// ---------- Auth Nav Update ----------
+function updateAuthUI() {
+    // Will be used when login/logout state changes
 }
 
 // ---------- Load API Data ----------
