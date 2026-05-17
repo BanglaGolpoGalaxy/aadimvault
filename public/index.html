@@ -21,11 +21,9 @@
                 order: -1;
                 margin-bottom: 20px;
             }
-            .hero-right img {
-                height: 300px;
-                border-radius: 24px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-                border: 4px solid var(--gold);
+            .hero-icon {
+                width: 240px !important;
+                height: 240px !important;
             }
             .features {
                 grid-template-columns: repeat(2, 1fr) !important;
@@ -33,15 +31,25 @@
             }
         }
 
-        /* ---------- ডেস্কটপ হিরো ---------- */
-        .hero-right img {
-            border-radius: 30px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-            border: 4px solid var(--gold);
-            transition: transform 0.3s;
+        /* ---------- কাস্টম আইকন ---------- */
+        .hero-icon {
+            width: 360px;
+            height: 360px;
+            margin: 0 auto;
+            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.3));
+            animation: floatIcon 3s ease-in-out infinite;
         }
-        .hero-right img:hover {
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .hero-icon:hover {
+            animation-play-state: paused;
             transform: scale(1.02);
+            filter: drop-shadow(0 16px 32px rgba(0,0,0,0.4));
+            transition: transform 0.3s, filter 0.3s;
         }
 
         /* ---------- সেটিংস টগল ---------- */
@@ -108,7 +116,26 @@
             </div>
         </div>
         <div class="hero-right">
-            <img src="images/aadim_vault.jpg" alt="Aadim Vault Heritage">
+            <!-- ====== কাস্টম SVG আইকন ====== -->
+            <svg class="hero-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:var(--gold);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#d7a96b;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- বৃত্ত -->
+                <circle cx="100" cy="100" r="90" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
+                <!-- তালার বডি -->
+                <rect x="65" y="90" width="70" height="60" rx="8" fill="url(#goldGrad)"/>
+                <!-- তালার U-পিন -->
+                <path d="M75 90 L75 70 Q75 45 100 45 Q125 45 125 70 L125 90" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-linecap="round"/>
+                <!-- চাবির ছিদ্র -->
+                <circle cx="100" cy="115" r="8" fill="var(--bg)"/>
+                <rect x="96" y="115" width="8" height="12" rx="2" fill="var(--bg)"/>
+                <!-- টেক্সট -->
+                <text x="100" y="180" text-anchor="middle" font-family="'Cinzel', serif" font-size="14" fill="url(#goldGrad)" font-weight="bold">AV</text>
+            </svg>
         </div>
     </section>
 
@@ -123,9 +150,7 @@
     <!-- ==================== MARKET ==================== -->
     <section class="section" id="market">
         <div class="section-header"><h2 data-en="Popular Collections" data-bn="জনপ্রিয় সংগ্রহ">Popular Collections</h2><a href="#" data-en="View All" data-bn="সব দেখুন">View All</a></div>
-        <div class="cards-grid" id="productGrid">
-            <!-- লাইভ API ডেটা, না থাকলে ডেমি -->
-        </div>
+        <div class="cards-grid" id="productGrid"></div>
     </section>
 
     <!-- ==================== AUCTION & EXCHANGE ==================== -->
@@ -173,7 +198,6 @@
         </div>
     </footer>
 
-    <!-- ==================== SCRIPTS ==================== -->
     <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
 </body>
