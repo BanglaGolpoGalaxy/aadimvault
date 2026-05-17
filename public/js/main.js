@@ -1,74 +1,132 @@
-const themeToggle = document.getElementById("themeToggle");
+'use strict';
 
-const langToggle = document.getElementById("langToggle");
+const API = '/api';
 
-let isBangla = true;
+// ---------- DOM Elements ----------
+const themeToggleBtn = document.getElementById('themeToggleItem');
+const langToggleBtn = document.getElementById('langToggleItem');
+const themeIcon = document.getElementById('themeIcon');
+const exploreBtn = document.getElementById('exploreBtn');
+const profileTrigger = document.getElementById('profileTrigger');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const loginLink = document.getElementById('loginLink');
+const logoutLink = document.getElementById('logoutLink');
 
+// ---------- State ----------
+let currentLang = localStorage.getItem('aadimvault-lang') || 'en';
+let currentTheme = localStorage.getItem('theme') || 'light';
 
+// ---------- Apply Initial Theme ----------
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        document.body.classList.add('dark');
+        themeIcon.textContent = '☀️';
+    } else {
+        document.body.classList.remove('dark');
+        themeIcon.textContent = '🌙';
+    }
+}
+applyTheme(currentTheme);
 
-// DARK / LIGHT MODE
-
-themeToggle.addEventListener("click", () => {
-
-  document.body.classList.toggle("dark");
-
-  if(document.body.classList.contains("dark")){
-
-    themeToggle.innerText = "☀️";
-
-  }else{
-
-    themeToggle.innerText = "🌙";
-
-  }
-
+// ---------- Theme Toggle ----------
+themeToggleBtn.addEventListener('click', () => {
+    currentTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(currentTheme);
+    localStorage.setItem('theme', currentTheme);
 });
 
+// ---------- Apply Initial Language ----------
+function applyLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    localStorage.setItem('aadimvault-lang', lang);
+    
+    // Update all data-en/data-bn elements
+    document.querySelectorAll('[data-en][data-bn]').forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`);
+    });
+    
+    // Update toggle button text
+    if (langToggleBtn) {
+        langToggleBtn.innerHTML = lang === 'en' ? '<span>বাংলা</span>' : '<span>English</span>';
+    }
+}
+applyLang(currentLang);
 
+// ---------- Language Toggle ----------
+if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+        const newLang = currentLang === 'en' ? 'bn' : 'en';
+        applyLang(newLang);
+    });
+}
 
+// ---------- Profile Dropdown ----------
+if (profileTrigger && dropdownMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
+    document.addEventListener('click', () => {
+        dropdownMenu.classList.remove('show');
+    });
+}
 
-// LANGUAGE TOGGLE
+// ---------- Auth Nav Update ----------
+function updateAuthUI() {
+    if (typeof Auth !== 'undefined' && Auth.isLoggedIn()) {
+        if (loginLink) loginLink.style.display = 'none';
+        if (logoutLink) {
+            logoutLink.style.display = 'block';
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                Auth.logout();
+            });
+        }
+        // Profile trigger icon update (optional)
+        const user = Auth.getUser();
+        if (profileTrigger && user) {
+            profileTrigger.innerHTML = `<i class="fas fa-user-circle" style="font-size:1.8rem;"></i>`;
+        }
+    } else {
+        if (loginLink) loginLink.style.display = 'block';
+        if (logoutLink) logoutLink.style.display = 'none';
+    }
+}
 
-langToggle.addEventListener("click", () => {
+// ---------- Explore Button ----------
+if (exploreBtn) {
+    exploreBtn.addEventListener('click', () => {
+        document.getElementById('market').scrollIntoView({ behavior: 'smooth' });
+    });
+}
 
-  const title = document.getElementById("heroTitle");
+// ---------- Load API Data ----------
+async function loadProducts() {
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
+    try {
+        const res = await fetch(`${API}/products`);
+        const products = await res.json();
+        grid.innerHTML = products.length ? products.map(p => `
+            <div class="product-card">
+                ${p.image ? `<img src="${p.image}" alt="${p.title}">` : '<div style="height:260px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:3rem;">🏺</div>'}
+                <div class="card-content">
+                    <h3>${p.title}</h3>
+                    <p>₹ ${Number(p.price).toFixed(2)}</p>
+                    <a href="product.html?id=${p.id}" class="primary-btn small" data-en="Details" data-bn="বিস্তারিত">Details</a>
+                </div>
+            </div>
+        `).join('') : '<p>No products yet.</p>';
+        applyLang(currentLang);
+    } catch (err) {
+        console.error(err);
+        grid.innerHTML = '<p>Failed to load products.</p>';
+    }
+}
 
-  const subtitle = document.getElementById("heroSubtitle");
-
-  const text = document.getElementById("heroText");
-
-
-
-  if(isBangla){
-
-    title.innerText = "Aadim Vault";
-
-    subtitle.innerText = "History, Heritage, Our Pride";
-
-    text.innerText =
-    "A virtual world preserving lost civilizations, ancient memories and cultural heritage.";
-
-    langToggle.innerText = "বাংলা";
-
-    document.documentElement.lang = "en";
-
-    isBangla = false;
-
-  }else{
-
-    title.innerText = "আদিম ভল্ট";
-
-    subtitle.innerText = "ঐতিহ্য, ইতিহাস, আমাদের গর্ব";
-
-    text.innerText =
-    "পৃথিবীর বিভিন্ন প্রান্তের হারিয়ে যাওয়া সভ্যতা, শিল্পকর্ম, স্মৃতি ও ইতিহাসকে একত্রিত করার একটি ভার্চুয়াল জগৎ।";
-
-    langToggle.innerText = "EN";
-
-    document.documentElement.lang = "bn";
-
-    isBangla = true;
-
-  }
-
+// ---------- Init ----------
+document.addEventListener('DOMContentLoaded', () => {
+    updateAuthUI();
+    loadProducts();
 });
