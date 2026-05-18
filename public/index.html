@@ -11,72 +11,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* ---------- মোবাইল হিরো ফিক্স ---------- */
         @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .hero-right {
-                order: -1;
-                margin-bottom: 20px;
-            }
-            .hero-icon {
-                width: 240px !important;
-                height: 240px !important;
-            }
-            .features {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px;
-            }
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-right { order: -1; margin-bottom: 20px; }
+            .features { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+            .category-scroll { overflow-x: auto; display: flex; gap: 10px; padding-bottom: 10px; }
+            .category-card-scroll { min-width: 120px; flex-shrink: 0; }
         }
-
-        /* ---------- কাস্টম আইকন ---------- */
-        .hero-icon {
-            width: 360px;
-            height: 360px;
-            margin: 0 auto;
-            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.3));
-            animation: floatIcon 3s ease-in-out infinite;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .hero-icon:hover {
-            animation-play-state: paused;
-            transform: scale(1.02);
-            filter: drop-shadow(0 16px 32px rgba(0,0,0,0.4));
-            transition: transform 0.3s, filter 0.3s;
-        }
-
-        /* ---------- সেটিংস টগল ---------- */
-        .settings-toggle {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .icon-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--text);
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .icon-btn:hover {
-            background: var(--gold);
-            color: white;
-        }
+        .hero-right img, .hero-icon { max-width: 100%; height: auto; }
+        .icon-btn { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text); padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
+        .icon-btn:hover { background: var(--gold); color: white; }
+        .key-hint { text-align: center; font-size: 0.8rem; color: var(--text-secondary, #6b5a4a); margin-top: 8px; }
+        .search-wrapper { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 10px; }
+        .search-wrapper input { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; width: 160px; }
+        .search-wrapper button { background: var(--gold); border: none; color: white; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
+        .category-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 20px; scrollbar-width: thin; }
+        .category-card-scroll { background: var(--card); border-radius: 14px; padding: 12px 16px; text-align: center; border: 1px solid var(--border); min-width: 110px; cursor: pointer; transition: transform 0.2s; }
+        .category-card-scroll:hover { transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- HEADER -->
     <header class="navbar">
         <div class="logo">
             <div class="logo-circle">AV</div>
@@ -88,10 +44,15 @@
         
         <nav>
             <a href="index.html" data-en="Home" data-bn="হোম">Home</a>
-            <a href="#market" data-en="Market" data-bn="বাজার">Market</a>
-            <a href="#auction" data-en="Auctions" data-bn="নিলাম">Auctions</a>
-            <a href="#stories" data-en="Stories" data-bn="গল্প">Stories</a>
+            <a href="market.html" data-en="Market" data-bn="বাজার">Market</a>
+            <a href="auctions.html" data-en="Auctions" data-bn="নিলাম">Auctions</a>
+            <a href="stories.html" data-en="Stories" data-bn="গল্প">Stories</a>
         </nav>
+
+        <div class="search-wrapper">
+            <input type="text" id="globalSearch" placeholder="Search..." data-en-placeholder="Search..." data-bn-placeholder="খুঁজুন...">
+            <button id="globalSearchBtn"><i class="fas fa-search"></i></button>
+        </div>
         
         <div class="top-actions">
             <a href="upload.html" class="add-btn"><i class="fas fa-plus"></i> <span data-en="Add" data-bn="যোগ করুন">Add</span></a>
@@ -103,7 +64,7 @@
         </div>
     </header>
 
-    <!-- ==================== HERO ==================== -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-left">
             <span class="badge" data-en="Virtual Heritage Platform" data-bn="ভার্চুয়াল হেরিটেজ প্ল্যাটফর্ম">Virtual Heritage Platform</span>
@@ -116,30 +77,37 @@
             </div>
         </div>
         <div class="hero-right">
-            <!-- ====== কাস্টম SVG আইকন ====== -->
-            <svg class="hero-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg class="hero-icon" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" id="vaultIcon">
                 <defs>
                     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:var(--gold);stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#d7a96b;stop-opacity:1" />
+                        <stop offset="0%" stop-color="var(--gold)" />
+                        <stop offset="100%" stop-color="#d7a96b" />
                     </linearGradient>
+                    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#facc15" stop-opacity="0.9" />
+                        <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
+                    </radialGradient>
                 </defs>
-                <!-- বৃত্ত -->
-                <circle cx="100" cy="100" r="90" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
-                <!-- তালার বডি -->
-                <rect x="65" y="90" width="70" height="60" rx="8" fill="url(#goldGrad)"/>
-                <!-- তালার U-পিন -->
-                <path d="M75 90 L75 70 Q75 45 100 45 Q125 45 125 70 L125 90" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-linecap="round"/>
-                <!-- চাবির ছিদ্র -->
-                <circle cx="100" cy="115" r="8" fill="var(--bg)"/>
-                <rect x="96" y="115" width="8" height="12" rx="2" fill="var(--bg)"/>
-                <!-- টেক্সট -->
-                <text x="100" y="180" text-anchor="middle" font-family="'Cinzel', serif" font-size="14" fill="url(#goldGrad)" font-weight="bold">AV</text>
+                <circle cx="80" cy="80" r="68" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.4"/>
+                <rect x="52" y="68" width="56" height="44" rx="8" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.5"/>
+                <path d="M60 68 L60 52 Q60 38 80 38 Q100 38 100 52 L100 68" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="80" cy="84" r="5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1.2"/>
+                <rect x="77.5" y="84" width="5" height="10" rx="1.5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1"/>
+                <g id="keyGroup" onclick="unlockVault()">
+                    <rect x="108" y="68" width="24" height="5" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                    <rect x="124" y="58" width="5" height="24" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                    <circle cx="126" cy="84" r="7" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                </g>
+                <g id="giftGroup">
+                    <circle cx="80" cy="28" r="22" fill="url(#glowGrad)" />
+                    <text x="80" y="35" text-anchor="middle" font-size="18">🎁</text>
+                </g>
             </svg>
+            <p class="key-hint" data-en="👆 Click the key to unlock the vault" data-bn="👆 তালা খুলতে চাবিতে ক্লিক করুন">👆 Click the key to unlock the vault</p>
         </div>
     </section>
 
-    <!-- ==================== FEATURES ==================== -->
+    <!-- FEATURES -->
     <section class="features">
         <div class="feature-card"><h3>🛒 <span data-en="Buy" data-bn="কেনাকাটা">Buy</span></h3><p data-en="Buy historical & rare collections" data-bn="ঐতিহাসিক ও দুর্লভ সংগ্রহ কিনুন">Buy historical & rare collections</p></div>
         <div class="feature-card"><h3>⚖️ <span data-en="Auction" data-bn="নিলাম">Auction</span></h3><p data-en="Bid on special collections" data-bn="বিশেষ সংগ্রহে বিড করুন">Bid on special collections</p></div>
@@ -147,13 +115,33 @@
         <div class="feature-card"><h3>📖 <span data-en="History" data-bn="ইতিহাস">History</span></h3><p data-en="Know the story behind each object" data-bn="প্রতিটি জিনিসের পিছনের গল্প জানুন">Know the story behind each object</p></div>
     </section>
 
-    <!-- ==================== MARKET ==================== -->
-    <section class="section" id="market">
-        <div class="section-header"><h2 data-en="Popular Collections" data-bn="জনপ্রিয় সংগ্রহ">Popular Collections</h2><a href="#" data-en="View All" data-bn="সব দেখুন">View All</a></div>
-        <div class="cards-grid" id="productGrid"></div>
+    <!-- CATEGORIES -->
+    <section class="section">
+        <div class="section-header"><h2 data-en="Categories" data-bn="ক্যাটাগরি">Categories</h2></div>
+        <div class="category-scroll" id="categoryScroll">
+            <div class="category-card-scroll"><i class="fas fa-monument"></i><br>Statue</div>
+            <div class="category-card-scroll"><i class="fas fa-coins"></i><br>Coin</div>
+            <div class="category-card-scroll"><i class="fas fa-scroll"></i><br>Manuscript</div>
+            <div class="category-card-scroll"><i class="fas fa-mask"></i><br>Mask</div>
+            <div class="category-card-scroll"><i class="fas fa-shield-haltered"></i><br>Weapon</div>
+            <div class="category-card-scroll"><i class="fas fa-book"></i><br>Book</div>
+            <div class="category-card-scroll"><i class="fas fa-gem"></i><br>Jewelry</div>
+            <div class="category-card-scroll"><i class="fas fa-jar"></i><br>Pottery</div>
+        </div>
     </section>
 
-    <!-- ==================== AUCTION & EXCHANGE ==================== -->
+    <!-- MARKET -->
+    <section class="section" id="market">
+        <div class="section-header"><h2 data-en="Popular Collections" data-bn="জনপ্রিয় সংগ্রহ">Popular Collections</h2><a href="market.html" data-en="View All" data-bn="সব দেখুন">View All</a></div>
+        <div class="cards-grid" id="productGrid">
+            <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Ancient Coin</h3><p>₹ 15,000</p></div></div>
+            <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Vintage Mask</h3><p>₹ 25,000</p></div></div>
+            <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Old Manuscript</h3><p>₹ 30,000</p></div></div>
+            <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Brass Lamp</h3><p>₹ 8,000</p></div></div>
+        </div>
+    </section>
+
+    <!-- AUCTION & EXCHANGE -->
     <section class="dual-section">
         <div class="auction-box" id="auction">
             <div class="section-header"><h2 data-en="Live Auctions" data-bn="চলমান নিলাম">Live Auctions</h2></div>
@@ -169,19 +157,21 @@
         </div>
     </section>
 
-    <!-- ==================== STORIES ==================== -->
+    <!-- STORIES -->
     <section class="section" id="stories">
-        <div class="section-header"><h2 data-en="Community Stories" data-bn="কমিউনিটির গল্প">Community Stories</h2><a href="#" data-en="All Stories" data-bn="সব গল্প দেখুন">All Stories</a></div>
+        <div class="section-header"><h2 data-en="Community Stories" data-bn="কমিউনিটির গল্প">Community Stories</h2><a href="stories.html" data-en="All Stories" data-bn="সব গল্প দেখুন">All Stories</a></div>
         <div class="stories-grid" id="storiesGrid">
             <div class="story-card"><img src="images/aadim_vault.jpg" alt="Story"><div class="story-content"><h3>The Lost Manuscript</h3><p>A story about a forgotten diary...</p></div></div>
+            <div class="story-card"><img src="images/aadim_vault.jpg" alt="Story"><div class="story-content"><h3>Grandfather's Watch</h3><p>How a simple watch carried memories...</p></div></div>
         </div>
     </section>
 
-    <!-- ==================== FOOTER ==================== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div>
             <h2>Aadim Vault</h2>
             <p data-en="A virtual world for preserving heritage." data-bn="ঐতিহ্য সংরক্ষণ ও ভাগ করে নেওয়ার ভার্চুয়াল জগৎ">A virtual world for preserving heritage.</p>
+            <p data-en="Every object has a story. Every story deserves a home." data-bn="প্রতিটি বস্তুর একটি গল্প আছে। প্রতিটি গল্প একটি ঠিকানা প্রাপ্য।">Every object has a story. Every story deserves a home.</p>
         </div>
         <div>
             <h4 data-en="Explore" data-bn="এক্সপ্লোর">Explore</h4>
@@ -194,11 +184,107 @@
             <h4 data-en="Support" data-bn="সহায়তা">Support</h4>
             <a href="security-privacy.html" data-en="Security & Privacy" data-bn="নিরাপত্তা ও গোপনীয়তা">Security & Privacy</a>
             <a href="terms.html" data-en="Terms & Conditions" data-bn="শর্তাবলী">Terms & Conditions</a>
-            <a href="https://formspree.io/f/mpqowyld" target="_blank"><i class="fas fa-envelope"></i> <span data-en="Contact" data-bn="যোগাযোগ">Contact</span></a>
+            <a href="#" id="contactLink"><i class="fas fa-envelope"></i> <span data-en="Contact" data-bn="যোগাযোগ">Contact</span></a>
         </div>
     </footer>
 
+    <!-- CONTACT MODAL -->
+    <div id="contactModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999; align-items:center; justify-content:center;">
+        <div style="background:var(--card); padding:24px; border-radius:20px; width:90%; max-width:400px; border:1px solid var(--border);">
+            <h3 data-en="Contact Us" data-bn="যোগাযোগ">Contact Us</h3>
+            <form action="https://formspree.io/f/mpqowyld" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:10px; margin:8px 0; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;">
+                <input type="email" name="email" placeholder="Your Email" required style="width:100%; padding:10px; margin:8px 0; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;">
+                <textarea name="message" rows="3" placeholder="Your Message" required style="width:100%; padding:10px; margin:8px 0; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;"></textarea>
+                <button type="submit" style="background:var(--gold); color:white; border:none; padding:10px 20px; border-radius:20px; cursor:pointer; width:100%;">Send</button>
+            </form>
+            <button onclick="document.getElementById('contactModal').style.display='none'" style="background:#c0392b; color:white; border:none; padding:8px 16px; border-radius:20px; cursor:pointer; width:100%; margin-top:8px;">Close</button>
+        </div>
+    </div>
+
     <script src="js/auth.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        // ---------- DOM ----------
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const langToggleBtn = document.getElementById('langToggle');
+        const exploreBtn = document.getElementById('exploreBtn');
+        const profileTrigger = document.getElementById('profileTrigger');
+        const contactLink = document.getElementById('contactLink');
+        const contactModal = document.getElementById('contactModal');
+        const globalSearchBtn = document.getElementById('globalSearchBtn');
+        const globalSearchInput = document.getElementById('globalSearch');
+
+        let currentLang = localStorage.getItem('aadimvault-lang') || 'en';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        // ---------- THEME ----------
+        function applyTheme(t) {
+            currentTheme = t;
+            if (t === 'dark') { document.body.classList.add('dark'); }
+            else { document.body.classList.remove('dark'); }
+            localStorage.setItem('theme', t);
+            if (themeToggleBtn) themeToggleBtn.innerHTML = t === 'dark' ? '☀️' : '🌙';
+        }
+        applyTheme(currentTheme);
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', () => {
+            applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+        });
+
+        // ---------- LANGUAGE ----------
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            localStorage.setItem('aadimvault-lang', lang);
+            document.querySelectorAll('[data-en][data-bn]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            if (langToggleBtn) langToggleBtn.innerHTML = lang === 'en' ? '🌐 বাংলা' : '🌐 English';
+        }
+        applyLang(currentLang);
+        if (langToggleBtn) langToggleBtn.addEventListener('click', () => {
+            applyLang(currentLang === 'en' ? 'bn' : 'en');
+        });
+
+        // ---------- PROFILE ----------
+        if (profileTrigger) profileTrigger.addEventListener('click', () => { window.location.href = 'profile.html'; });
+
+        // ---------- EXPLORE ----------
+        if (exploreBtn) exploreBtn.addEventListener('click', () => {
+            document.getElementById('market').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ---------- CONTACT MODAL ----------
+        if (contactLink) contactLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+        });
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) contactModal.style.display = 'none';
+        });
+
+        // ---------- GLOBAL SEARCH ----------
+        if (globalSearchBtn) globalSearchBtn.addEventListener('click', () => {
+            const q = globalSearchInput.value.trim();
+            if (q) window.location.href = `market.html?search=${encodeURIComponent(q)}`;
+        });
+
+        // ---------- UNLOCK ANIMATION ----------
+        function unlockVault() {
+            const keyGroup = document.getElementById('keyGroup');
+            const giftGroup = document.getElementById('giftGroup');
+            keyGroup.style.transform = 'translateX(-32px) rotate(12deg)';
+            setTimeout(() => {
+                keyGroup.style.opacity = '0';
+                giftGroup.style.opacity = '1';
+                giftGroup.style.transform = 'scale(1)';
+            }, 700);
+            setTimeout(() => {
+                keyGroup.style.transform = 'translateX(0) rotate(0)';
+                keyGroup.style.opacity = '1';
+                giftGroup.style.opacity = '0';
+                giftGroup.style.transform = 'scale(0.5)';
+            }, 2800);
+        }
+    </script>
 </body>
 </html>

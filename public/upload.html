@@ -3,215 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-en="Add New Item | AadimVault" data-bn="নতুন সংগ্রহ যোগ | আদিম ভল্ট">Add New Item | AadimVault</title>
-    <meta name="description" content="Add your old objects, stories and memories to AadimVault.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <title>Add Item | Aadim Vault</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', 'Noto Sans Bengali', sans-serif; }
-        body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Poppins', sans-serif; }
-        
-        .upload-container { max-width: 650px; margin: 30px auto; }
-        .form-card {
-            background: var(--card-bg, #fffcf5);
-            padding: 28px 24px;
-            border-radius: 18px;
-            box-shadow: var(--shadow, 0 4px 12px rgba(0,0,0,0.1));
+        body { font-family: 'Poppins', sans-serif; }
+        .upload-container { max-width: 600px; margin: 30px auto; padding: 20px; }
+        .form-card { background: var(--card); padding: 24px; border-radius: 20px; border: 1px solid var(--border); }
+        .form-card h2 { margin-bottom: 20px; color: var(--gold); }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text); font-family: inherit;
         }
-        .upload-form { display: flex; flex-direction: column; gap: 18px; }
-        .upload-form label { font-weight: 600; font-size: 0.9rem; }
-        .upload-form input, .upload-form textarea, .upload-form select {
-            padding: 12px 14px; border: 1px solid var(--accent, #c79a6e);
-            border-radius: 10px; background: var(--bg, #fdf6ec); color: var(--text, #2e1e0f);
-            font-family: inherit; font-size: 0.95rem; outline: none;
-        }
-        .file-label {
-            display: inline-block; background: var(--primary, #8b5a2b); color: #fff;
-            padding: 10px 22px; border-radius: 25px; cursor: pointer; font-weight: 600;
-            text-align: center; transition: background 0.2s;
-        }
-        .file-label:hover { background: var(--primary-dark, #5e3a1a); }
-        .file-label i { margin-right: 6px; }
-        .file-names { font-size: 0.85rem; color: var(--text-light, #5c4a3a); margin-top: 6px; }
-        .checkbox-group { display: flex; gap: 20px; flex-wrap: wrap; }
-        .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: normal; }
-        .upload-btn {
-            background: var(--primary, #8b5a2b); color: #fff; border: none;
-            padding: 14px; border-radius: 30px; font-weight: 700; font-size: 1rem;
-            cursor: pointer; transition: background 0.2s;
-        }
-        .upload-btn:hover { background: var(--primary-dark, #5e3a1a); }
-        #auction-settings { display: none; background: var(--bg, #fdf6ec); padding: 14px; border-radius: 12px; }
-        .message { text-align: center; margin-top: 18px; font-weight: 600; }
-        
-        /* Language Toggle */
-        .lang-toggle { display: flex; gap: 8px; align-items: center; margin-left: 10px; }
-        .lang-btn { background: var(--surface2, #f5efe0); border: 1px solid var(--border, #dcc8a0); padding: 4px 10px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
-        .lang-btn.active { background: var(--primary, #8b5a2b); color: #fff; }
+        .file-label { display: inline-block; background: var(--gold); color: white; padding: 8px 18px; border-radius: 20px; cursor: pointer; }
+        .file-names { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+        .submit-btn { background: var(--gold); color: white; border: none; padding: 12px 24px; border-radius: 24px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 12px; }
+        #auction-settings { display: none; background: var(--bg); padding: 12px; border-radius: 12px; margin-top: 8px; }
     </style>
 </head>
-<body class="light" data-lang="en">
-
-    <!-- ========== STICKY NAVIGATION ========== -->
-    <header id="main-header">
-        <div class="container nav-wrapper">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">🏛️</span>
-                <span class="logo-text">AadimVault</span>
-            </a>
-            <nav class="main-nav" style="display: flex; align-items: center; gap: 12px;">
-                <a href="index.html" data-en="Home" data-bn="হোম">Home</a>
-                <a href="upload.html" class="active" data-en="Add" data-bn="যোগ করুন">Add</a>
-                <a href="login.html" data-en="Login" data-bn="লগইন">Login</a>
-                <div class="lang-toggle">
-                    <button class="lang-btn active" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="bn">বাংলা</button>
-                </div>
-                <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
-            </nav>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-circle">AV</div>
+            <div><h2>Aadim Vault</h2></div>
         </div>
+        <nav>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        </nav>
     </header>
 
-    <main class="upload-container">
+    <div class="upload-container">
         <div class="form-card">
-            <h2 style="margin-bottom: 20px; color: var(--primary, #8b5a2b);" data-en="🖼️ Add New Item" data-bn="🖼️ নতুন সংগ্রহ যোগ করুন">🖼️ Add New Item</h2>
-            <form id="product-form" class="upload-form" enctype="multipart/form-data">
-                <label data-en="Product Name *" data-bn="পণ্যের নাম *">Product Name *</label>
-                <input type="text" name="title" placeholder="e.g., Ancient Bronze Statue" required>
-
-                <label data-en="Short Description" data-bn="সংক্ষিপ্ত বিবরণ">Short Description</label>
-                <textarea name="description" rows="3" placeholder="Briefly describe the item..."></textarea>
-
-                <label data-en="Price (₹)" data-bn="মূল্য (₹)">Price (₹)</label>
-                <input type="number" name="price" step="0.01" placeholder="e.g., 25000">
-
-                <label data-en="Images (up to 5, max 2MB each)" data-bn="ছবি (সর্বোচ্চ ৫টি, প্রতিটি ২ এমবি)">Images (up to 5, max 2MB each)</label>
-                <label class="file-label" for="images"><i class="fas fa-images"></i> <span data-en="Select Images" data-bn="ছবি সিলেক্ট করুন">Select Images</span></label>
-                <input type="file" name="images" id="images" accept="image/*" multiple style="display:none;" onchange="updateFileList(this, 'image-names')">
-                <div id="image-names" class="file-names" data-en="No files selected" data-bn="কোনো ফাইল নির্বাচন করা হয়নি">No files selected</div>
-
-                <label data-en="PDF (optional)" data-bn="পিডিএফ (ঐচ্ছিক)">PDF (optional)</label>
-                <label class="file-label" for="pdf"><i class="fas fa-file-pdf"></i> <span data-en="Select PDF" data-bn="পিডিএফ সিলেক্ট করুন">Select PDF</span></label>
-                <input type="file" name="pdf" id="pdf" accept=".pdf" style="display:none;" onchange="updateFileList(this, 'pdf-name')">
-                <div id="pdf-name" class="file-names" data-en="No files selected" data-bn="কোনো ফাইল নির্বাচন করা হয়নি">No files selected</div>
-
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="for_sale" value="true" checked> <span data-en="For Sale" data-bn="বিক্রির জন্য">For Sale</span></label>
-                    <label><input type="checkbox" name="display_only" value="true"> <span data-en="Display Only" data-bn="শুধু প্রদর্শনী">Display Only</span></label>
-                    <label><input type="checkbox" name="auction" value="true" id="auction-checkbox"> <span data-en="Auction" data-bn="নিলাম">Auction</span></label>
+            <h2>Add New Item</h2>
+            <form id="product-form" enctype="multipart/form-data">
+                <div class="form-group"><label>Product Name *</label><input type="text" name="title" placeholder="e.g., Ancient Bronze Statue" required></div>
+                <div class="form-group"><label>Short Description</label><textarea name="description" rows="2" placeholder="Briefly describe..."></textarea></div>
+                <div class="form-group"><label>Price (₹)</label><input type="number" name="price" step="0.01" placeholder="25000"></div>
+                <div class="form-group"><label>Category</label><select name="category">
+                    <option value="other">Other</option>
+                    <option value="Statue">Statue</option>
+                    <option value="Coin">Coin</option>
+                    <option value="Manuscript">Manuscript</option>
+                    <option value="Mask">Mask</option>
+                    <option value="Weapon">Weapon</option>
+                    <option value="Book">Book</option>
+                    <option value="Jewelry">Jewelry</option>
+                    <option value="Pottery">Pottery</option>
+                    <option value="Watch">Watch</option>
+                </select></div>
+                <div class="form-group">
+                    <label>Images (up to 5)</label>
+                    <label class="file-label" for="images"><i class="fas fa-images"></i> Select Images</label>
+                    <input type="file" name="images" id="images" accept="image/*" multiple style="display:none;" onchange="updateFileList(this, 'image-names')">
+                    <div id="image-names" class="file-names">No files selected</div>
                 </div>
-
-                <div id="auction-settings">
-                    <label data-en="Auction End Date & Time" data-bn="নিলাম শেষের তারিখ ও সময়">Auction End Date & Time</label>
-                    <input type="datetime-local" name="auction_end">
+                <div class="form-group">
+                    <label>PDF (optional)</label>
+                    <label class="file-label" for="pdf"><i class="fas fa-file-pdf"></i> Select PDF</label>
+                    <input type="file" name="pdf" id="pdf" accept=".pdf" style="display:none;" onchange="updateFileList(this, 'pdf-name')">
+                    <div id="pdf-name" class="file-names">No files selected</div>
                 </div>
-
-                <label data-en="Story (English)" data-bn="গল্প (ইংরেজি)">Story (English)</label>
-                <textarea name="story_en" rows="3" placeholder="Story in English..."></textarea>
-
-                <label data-en="Story (Your Language)" data-bn="গল্প (নিজের ভাষায়)">Story (Your Language)</label>
-                <textarea name="story_local" rows="3" placeholder="Story in your mother tongue..."></textarea>
+                <div class="form-group" style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <label><input type="checkbox" name="for_sale" value="true" checked> For Sale</label>
+                    <label><input type="checkbox" name="display_only" value="true"> Display Only</label>
+                    <label><input type="checkbox" name="auction" value="true" id="auctionCheckbox"> Auction</label>
+                </div>
+                <div id="auction-settings"><label>Auction End Date & Time</label><input type="datetime-local" name="auction_end"></div>
+                <div class="form-group"><label>Story (English)</label><textarea name="story_en" rows="2" placeholder="Story in English..."></textarea></div>
+                <div class="form-group"><label>Story (Your Language)</label><textarea name="story_local" rows="2" placeholder="Story in your mother tongue..."></textarea></div>
                 <input type="hidden" name="local_lang" value="en">
-
-                <button type="submit" class="upload-btn" data-en="✨ Add Item" data-bn="✨ যোগ করুন">✨ Add Item</button>
+                <button type="submit" class="submit-btn">Add Item</button>
             </form>
-            <div id="upload-message" class="message"></div>
+            <div id="upload-message" style="text-align:center; margin-top:12px; font-weight:600;"></div>
         </div>
-    </main>
+    </div>
 
-    <!-- ========== FOOTER ========== -->
-    <footer id="site-footer">
-        <div class="container" style="text-align: center; padding: 24px;">
-            <p>&copy; 2026 AadimVault — The Primeval Vault of Stories & Curios</p>
-        </div>
-    </footer>
-
-    <!-- ========== SCRIPTS ========== -->
     <script src="js/auth.js"></script>
     <script src="js/products.js"></script>
     <script>
-        // ---------- অ্যাক্সেস কন্ট্রোল ----------
         if (!Auth.isLoggedIn()) { alert('Please login first.'); window.location.href = 'login.html'; }
-
-        // ---------- থিম টগল ----------
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
-            document.body.classList.toggle('light');
-            const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-            const btn = document.getElementById('theme-toggle');
-            if (btn) btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
-        }
-        (function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark');
-                document.body.classList.remove('light');
-                const btn = document.getElementById('theme-toggle');
-                if (btn) btn.innerHTML = '☀️';
-            }
-        })();
-
-        // ---------- ভাষা টগল ----------
-        function switchLang(lang) {
-            document.body.setAttribute('data-lang', lang);
-            localStorage.setItem('aadimvault-lang', lang);
-            document.querySelectorAll('[data-en][data-bn]').forEach(el => {
-                const text = el.getAttribute(`data-${lang}`);
-                if (text) el.textContent = text;
-            });
-            document.querySelectorAll('input[placeholder][data-en]').forEach(el => {
-                el.placeholder = el.getAttribute(`data-${lang}`) || el.placeholder;
-            });
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-        }
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => switchLang(btn.dataset.lang));
-        });
-        (function() {
-            const savedLang = localStorage.getItem('aadimvault-lang') || 'en';
-            switchLang(savedLang);
-        })();
-
-        // ---------- নিলাম টগল ----------
-        document.getElementById('auction-checkbox').addEventListener('change', function() {
+        document.getElementById('auctionCheckbox').addEventListener('change', function() {
             document.getElementById('auction-settings').style.display = this.checked ? 'block' : 'none';
         });
-
-        // ---------- ফাইল নাম আপডেট ----------
         function updateFileList(input, displayId) {
             const display = document.getElementById(displayId);
-            if (input.files.length) {
-                const names = Array.from(input.files).map(f => f.name).join(', ');
-                display.textContent = names;
-            } else {
-                display.textContent = document.body.dataset.lang === 'bn' ? 'কোনো ফাইল নির্বাচন করা হয়নি' : 'No files selected';
-            }
+            display.textContent = input.files.length ? Array.from(input.files).map(f => f.name).join(', ') : 'No files selected';
         }
-
-        // ---------- ফর্ম সাবমিট ----------
         document.getElementById('product-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msg = document.getElementById('upload-message');
-            msg.innerHTML = '<span style="color:var(--primary, #8b5a2b);">⏳ Uploading...</span>';
+            msg.innerHTML = '<span style="color:var(--gold);">Uploading...</span>';
             const formData = new FormData(e.target);
             if (!formData.get('for_sale')) formData.set('for_sale', 'false');
             if (!formData.get('display_only')) formData.set('display_only', 'false');
             if (!formData.get('auction')) formData.set('auction', 'false');
             try {
-                const result = await Products.create(formData);
-                msg.innerHTML = '<span style="color:green;">✅ Item added successfully!</span>';
+                await Products.create(formData);
+                msg.innerHTML = '<span style="color:green;">Item added successfully!</span>';
                 e.target.reset();
-                document.getElementById('image-names').textContent = document.body.dataset.lang === 'bn' ? 'কোনো ফাইল নির্বাচন করা হয়নি' : 'No files selected';
-                document.getElementById('pdf-name').textContent = document.body.dataset.lang === 'bn' ? 'কোনো ফাইল নির্বাচন করা হয়নি' : 'No files selected';
+                document.getElementById('image-names').textContent = 'No files selected';
+                document.getElementById('pdf-name').textContent = 'No files selected';
                 setTimeout(() => { window.location.href = 'index.html'; }, 1500);
             } catch (err) {
-                msg.innerHTML = `<span style="color:red;">❌ ${err.message}</span>`;
+                msg.innerHTML = `<span style="color:red;">${err.message}</span>`;
             }
         });
     </script>
