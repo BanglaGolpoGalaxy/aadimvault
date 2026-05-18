@@ -7,7 +7,7 @@
     <meta name="description" content="Aadim Vault — Where Forgotten Objects Live Again.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -21,44 +21,12 @@
         .hero-right img, .hero-icon { max-width: 100%; height: auto; }
         .icon-btn { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text); padding: 6px 10px; border-radius: 8px; transition: background 0.2s; }
         .icon-btn:hover { background: var(--gold); color: white; }
-        .key-hint { text-align: center; font-size: 0.8rem; color: var(--text-secondary, #6b5a4a); margin-top: 8px; }
         .search-wrapper { display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 10px; }
         .search-wrapper input { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; width: 160px; }
         .search-wrapper button { background: var(--gold); border: none; color: white; padding: 8px 14px; border-radius: 20px; cursor: pointer; }
         .category-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 20px; scrollbar-width: thin; }
         .category-card-scroll { background: var(--card); border-radius: 14px; padding: 12px 16px; text-align: center; border: 1px solid var(--border); min-width: 110px; cursor: pointer; transition: transform 0.2s; }
         .category-card-scroll:hover { transform: translateY(-3px); }
-
-        /* ---------- প্রাচীন তালার SVG ---------- */
-        .ancient-lock {
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .ancient-lock:hover {
-            transform: scale(1.02);
-        }
-        /* অ্যানিমেটেড ক্যালিওগ্রাফি stroke */
-        .calligraphy-stroke {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawGlow 2s ease-in-out infinite alternate;
-        }
-        @keyframes drawGlow {
-            0% { stroke-dashoffset: 1000; opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { stroke-dashoffset: 0; opacity: 0.3; }
-        }
-        /* হাতের ছাপের দাগ */
-        .hand-print {
-            fill: none;
-            stroke: var(--gold);
-            stroke-width: 2;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .hand-print:hover {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -108,43 +76,17 @@
             </div>
         </div>
         <div class="hero-right">
-            <!-- প্রাচীন গুহা তালা: হাতের ছাপ দিয়ে খোলার SVG -->
-            <svg class="ancient-lock" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" id="vaultIcon">
-                <defs>
-                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#7a4d1d" />
-                        <stop offset="100%" stop-color="#d7a96b" />
-                    </linearGradient>
-                    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#facc15" stop-opacity="0.9" />
-                        <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
-                    </radialGradient>
-                </defs>
-                <!-- পাথরের গোল চাকা -->
-                <circle cx="100" cy="100" r="85" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-dasharray="8 4" opacity="0.6"/>
-                <circle cx="100" cy="100" r="75" fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.4"/>
-                <!-- ভেতরের গোলাকার তালা -->
-                <circle cx="100" cy="100" r="50" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="100" cy="100" r="45" fill="url(#goldGrad)" opacity="0.1"/>
-                <!-- ক্যালিওগ্রাফির জ্বলজ্বলে দাগ (সাপের মতো) -->
-                <path class="calligraphy-stroke" d="M55 100 Q70 55 100 55 Q130 55 145 100 Q130 145 100 145 Q70 145 55 100" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="2000" stroke-dashoffset="2000">
-                    <animate attributeName="stroke-dashoffset" from="2000" to="0" dur="3s" repeatCount="indefinite" values="2000;0;2000" keyTimes="0;0.5;1" />
-                </path>
-                <path class="calligraphy-stroke" d="M60 90 Q80 50 100 50 Q120 50 140 90 Q120 130 100 130 Q80 130 60 90" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="1800" stroke-dashoffset="1800">
-                    <animate attributeName="stroke-dashoffset" from="1800" to="0" dur="2.5s" repeatCount="indefinite" values="1800;0;1800" keyTimes="0;0.5;1" />
-                </path>
-                <!-- হাতের ছাপ (মাঝখানে) -->
-                <g class="hand-print" onclick="unlockVault()">
-                    <circle cx="100" cy="100" r="18" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="6 3"/>
-                    <text x="100" y="106" text-anchor="middle" font-family="'Poppins', sans-serif" font-size="14" fill="url(#goldGrad)" font-weight="bold">✋</text>
-                </g>
-                <!-- গিফট (লুকানো) -->
-                <g id="giftGroup" opacity="0">
-                    <circle cx="100" cy="30" r="22" fill="url(#glowGrad)" />
-                    <text x="100" y="37" text-anchor="middle" font-size="20">🎁</text>
-                </g>
-            </svg>
-            <p class="key-hint" data-en="👆 Place your hand to open the vault" data-bn="👆 ভল্ট খুলতে হাত রাখুন">👆 Place your hand to open the vault</p>
+            <!-- তোমার বানানো গোল্ডেন লোগো -->
+            <div class="logo-wrapper" style="width:360px;height:360px;position:relative;margin:0 auto;">
+                <div class="outer-ring" style="width:300px;height:300px;border-radius:50%;border:2px solid rgba(255,220,150,0.35);box-shadow:0 0 30px rgba(255,190,80,0.15);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+                <div class="outer-ring" style="width:330px;height:330px;opacity:0.35;border-radius:50%;border:2px solid rgba(255,220,150,0.35);box-shadow:0 0 30px rgba(255,190,80,0.15);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+                <div class="vault" style="width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at top,#c38b2d,#6f4314 70%);border:10px solid #d8a34c;box-shadow:inset 0 0 30px rgba(255,240,200,0.35),0 0 40px rgba(255,180,60,0.35);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+                    <div class="light" style="position:absolute;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(255,245,210,1),rgba(255,220,130,0.8),rgba(255,180,60,0.2),transparent 70%);filter:blur(10px);animation:shine 3s ease-in-out infinite;"></div>
+                    <div class="vault-door" style="position:absolute;width:130px;height:130px;border-radius:50%;top:5px;left:65px;transform:rotate(-22deg);transform-origin:left center;background:radial-gradient(circle at top,#f0bd63,#7a4917 75%);border:8px solid #e5b561;box-shadow:0 0 30px rgba(255,200,80,0.35),inset 0 0 20px rgba(255,255,255,0.15);animation:openDoor 5s ease-in-out infinite;"></div>
+                    <div class="vault-center" style="position:absolute;width:40px;height:40px;border-radius:50%;background:#5e340d;top:50%;left:50%;transform:translate(-50%,-50%);border:4px solid #f1c26a;z-index:10;"></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -159,7 +101,7 @@
     <!-- CATEGORIES -->
     <section class="section">
         <div class="section-header"><h2 data-en="Categories" data-bn="ক্যাটাগরি">Categories</h2></div>
-        <div class="category-scroll" id="categoryScroll">
+        <div class="category-scroll">
             <div class="category-card-scroll"><i class="fas fa-monument"></i><br>Statue</div>
             <div class="category-card-scroll"><i class="fas fa-coins"></i><br>Coin</div>
             <div class="category-card-scroll"><i class="fas fa-scroll"></i><br>Manuscript</div>
@@ -174,7 +116,7 @@
     <!-- MARKET -->
     <section class="section" id="market">
         <div class="section-header"><h2 data-en="Popular Collections" data-bn="জনপ্রিয় সংগ্রহ">Popular Collections</h2><a href="market.html" data-en="View All" data-bn="সব দেখুন">View All</a></div>
-        <div class="cards-grid" id="productGrid">
+        <div class="cards-grid">
             <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Ancient Coin</h3><p>₹ 15,000</p></div></div>
             <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Vintage Mask</h3><p>₹ 25,000</p></div></div>
             <div class="product-card"><img src="images/aadim_vault.jpg" alt="Item"><div class="card-content"><h3>Old Manuscript</h3><p>₹ 30,000</p></div></div>
@@ -184,24 +126,20 @@
 
     <!-- AUCTION & EXCHANGE -->
     <section class="dual-section">
-        <div class="auction-box" id="auction">
+        <div class="auction-box">
             <div class="section-header"><h2 data-en="Live Auctions" data-bn="চলমান নিলাম">Live Auctions</h2></div>
-            <div id="auctionList">
-                <div class="auction-item"><img src="images/aadim_vault.jpg" alt="Auction Item"><div><h3>Golden Coin</h3><p>Current Bid: ₹ 75,000</p><button class="primary-btn small">Bid Now</button></div></div>
-            </div>
+            <div class="auction-item"><img src="images/aadim_vault.jpg" alt="Auction Item"><div><h3>Golden Coin</h3><p>Current Bid: ₹ 75,000</p><button class="primary-btn small">Bid Now</button></div></div>
         </div>
-        <div class="exchange-box" id="exchange">
+        <div class="exchange-box">
             <div class="section-header"><h2 data-en="Exchange" data-bn="বিনিময় বিভাগ">Exchange</h2></div>
-            <div id="exchangeList">
-                <div class="exchange-item"><p>Ancient Pot ↔ Brass Mask</p></div>
-            </div>
+            <div class="exchange-item"><p>Ancient Pot ↔ Brass Mask</p></div>
         </div>
     </section>
 
     <!-- STORIES -->
     <section class="section" id="stories">
         <div class="section-header"><h2 data-en="Community Stories" data-bn="কমিউনিটির গল্প">Community Stories</h2><a href="stories.html" data-en="All Stories" data-bn="সব গল্প দেখুন">All Stories</a></div>
-        <div class="stories-grid" id="storiesGrid">
+        <div class="stories-grid">
             <div class="story-card"><img src="images/aadim_vault.jpg" alt="Story"><div class="story-content"><h3>The Lost Manuscript</h3><p>A story about a forgotten diary...</p></div></div>
             <div class="story-card"><img src="images/aadim_vault.jpg" alt="Story"><div class="story-content"><h3>Grandfather's Watch</h3><p>How a simple watch carried memories...</p></div></div>
         </div>
@@ -245,20 +183,16 @@
 
     <script src="js/auth.js"></script>
     <script>
-        // ---------- DOM ----------
         const themeToggleBtn = document.getElementById('themeToggle');
         const langToggleBtn = document.getElementById('langToggle');
         const exploreBtn = document.getElementById('exploreBtn');
         const profileTrigger = document.getElementById('profileTrigger');
         const contactLink = document.getElementById('contactLink');
         const contactModal = document.getElementById('contactModal');
-        const globalSearchBtn = document.getElementById('globalSearchBtn');
-        const globalSearchInput = document.getElementById('globalSearch');
 
         let currentLang = localStorage.getItem('aadimvault-lang') || 'en';
         let currentTheme = localStorage.getItem('theme') || 'light';
 
-        // ---------- THEME ----------
         function applyTheme(t) {
             currentTheme = t;
             if (t === 'dark') { document.body.classList.add('dark'); }
@@ -271,7 +205,6 @@
             applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
         });
 
-        // ---------- LANGUAGE ----------
         function applyLang(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
@@ -286,15 +219,11 @@
             applyLang(currentLang === 'en' ? 'bn' : 'en');
         });
 
-        // ---------- PROFILE ----------
         if (profileTrigger) profileTrigger.addEventListener('click', () => { window.location.href = 'profile.html'; });
-
-        // ---------- EXPLORE ----------
         if (exploreBtn) exploreBtn.addEventListener('click', () => {
             document.getElementById('market').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // ---------- CONTACT MODAL ----------
         if (contactLink) contactLink.addEventListener('click', (e) => {
             e.preventDefault();
             contactModal.style.display = 'flex';
@@ -302,29 +231,6 @@
         contactModal.addEventListener('click', (e) => {
             if (e.target === contactModal) contactModal.style.display = 'none';
         });
-
-        // ---------- GLOBAL SEARCH ----------
-        if (globalSearchBtn) globalSearchBtn.addEventListener('click', () => {
-            const q = globalSearchInput.value.trim();
-            if (q) window.location.href = `market.html?search=${encodeURIComponent(q)}`;
-        });
-
-        // ---------- প্রাচীন তালা খোলার অ্যানিমেশন ----------
-        function unlockVault() {
-            const giftGroup = document.getElementById('giftGroup');
-            const handPrint = document.querySelector('.hand-print');
-            // হাতের ছাপ জ্বলে উঠবে
-            if (handPrint) handPrint.style.opacity = '1';
-            // গিফট দেখা যাবে
-            if (giftGroup) {
-                giftGroup.style.opacity = '1';
-                giftGroup.style.transform = 'scale(1)';
-                setTimeout(() => {
-                    giftGroup.style.opacity = '0';
-                    giftGroup.style.transform = 'scale(0.5)';
-                }, 3000);
-            }
-        }
     </script>
 </body>
 </html>
