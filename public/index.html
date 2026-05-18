@@ -28,6 +28,37 @@
         .category-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 20px; scrollbar-width: thin; }
         .category-card-scroll { background: var(--card); border-radius: 14px; padding: 12px 16px; text-align: center; border: 1px solid var(--border); min-width: 110px; cursor: pointer; transition: transform 0.2s; }
         .category-card-scroll:hover { transform: translateY(-3px); }
+
+        /* ---------- প্রাচীন তালার SVG ---------- */
+        .ancient-lock {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .ancient-lock:hover {
+            transform: scale(1.02);
+        }
+        /* অ্যানিমেটেড ক্যালিওগ্রাফি stroke */
+        .calligraphy-stroke {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes drawGlow {
+            0% { stroke-dashoffset: 1000; opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0.3; }
+        }
+        /* হাতের ছাপের দাগ */
+        .hand-print {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .hand-print:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -77,10 +108,11 @@
             </div>
         </div>
         <div class="hero-right">
-            <svg class="hero-icon" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" id="vaultIcon">
+            <!-- প্রাচীন গুহা তালা: হাতের ছাপ দিয়ে খোলার SVG -->
+            <svg class="ancient-lock" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" id="vaultIcon">
                 <defs>
                     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="var(--gold)" />
+                        <stop offset="0%" stop-color="#7a4d1d" />
                         <stop offset="100%" stop-color="#d7a96b" />
                     </linearGradient>
                     <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
@@ -88,22 +120,31 @@
                         <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
                     </radialGradient>
                 </defs>
-                <circle cx="80" cy="80" r="68" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.4"/>
-                <rect x="52" y="68" width="56" height="44" rx="8" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.5"/>
-                <path d="M60 68 L60 52 Q60 38 80 38 Q100 38 100 52 L100 68" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="80" cy="84" r="5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1.2"/>
-                <rect x="77.5" y="84" width="5" height="10" rx="1.5" fill="var(--card)" stroke="#5c3a1a" stroke-width="1"/>
-                <g id="keyGroup" onclick="unlockVault()">
-                    <rect x="108" y="68" width="24" height="5" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
-                    <rect x="124" y="58" width="5" height="24" rx="2.5" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
-                    <circle cx="126" cy="84" r="7" fill="url(#goldGrad)" stroke="#5c3a1a" stroke-width="1.2"/>
+                <!-- পাথরের গোল চাকা -->
+                <circle cx="100" cy="100" r="85" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-dasharray="8 4" opacity="0.6"/>
+                <circle cx="100" cy="100" r="75" fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.4"/>
+                <!-- ভেতরের গোলাকার তালা -->
+                <circle cx="100" cy="100" r="50" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="100" cy="100" r="45" fill="url(#goldGrad)" opacity="0.1"/>
+                <!-- ক্যালিওগ্রাফির জ্বলজ্বলে দাগ (সাপের মতো) -->
+                <path class="calligraphy-stroke" d="M55 100 Q70 55 100 55 Q130 55 145 100 Q130 145 100 145 Q70 145 55 100" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="2000" stroke-dashoffset="2000">
+                    <animate attributeName="stroke-dashoffset" from="2000" to="0" dur="3s" repeatCount="indefinite" values="2000;0;2000" keyTimes="0;0.5;1" />
+                </path>
+                <path class="calligraphy-stroke" d="M60 90 Q80 50 100 50 Q120 50 140 90 Q120 130 100 130 Q80 130 60 90" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="1800" stroke-dashoffset="1800">
+                    <animate attributeName="stroke-dashoffset" from="1800" to="0" dur="2.5s" repeatCount="indefinite" values="1800;0;1800" keyTimes="0;0.5;1" />
+                </path>
+                <!-- হাতের ছাপ (মাঝখানে) -->
+                <g class="hand-print" onclick="unlockVault()">
+                    <circle cx="100" cy="100" r="18" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="6 3"/>
+                    <text x="100" y="106" text-anchor="middle" font-family="'Poppins', sans-serif" font-size="14" fill="url(#goldGrad)" font-weight="bold">✋</text>
                 </g>
-                <g id="giftGroup">
-                    <circle cx="80" cy="28" r="22" fill="url(#glowGrad)" />
-                    <text x="80" y="35" text-anchor="middle" font-size="18">🎁</text>
+                <!-- গিফট (লুকানো) -->
+                <g id="giftGroup" opacity="0">
+                    <circle cx="100" cy="30" r="22" fill="url(#glowGrad)" />
+                    <text x="100" y="37" text-anchor="middle" font-size="20">🎁</text>
                 </g>
             </svg>
-            <p class="key-hint" data-en="👆 Click the key to unlock the vault" data-bn="👆 তালা খুলতে চাবিতে ক্লিক করুন">👆 Click the key to unlock the vault</p>
+            <p class="key-hint" data-en="👆 Place your hand to open the vault" data-bn="👆 ভল্ট খুলতে হাত রাখুন">👆 Place your hand to open the vault</p>
         </div>
     </section>
 
@@ -268,22 +309,21 @@
             if (q) window.location.href = `market.html?search=${encodeURIComponent(q)}`;
         });
 
-        // ---------- UNLOCK ANIMATION ----------
+        // ---------- প্রাচীন তালা খোলার অ্যানিমেশন ----------
         function unlockVault() {
-            const keyGroup = document.getElementById('keyGroup');
             const giftGroup = document.getElementById('giftGroup');
-            keyGroup.style.transform = 'translateX(-32px) rotate(12deg)';
-            setTimeout(() => {
-                keyGroup.style.opacity = '0';
+            const handPrint = document.querySelector('.hand-print');
+            // হাতের ছাপ জ্বলে উঠবে
+            if (handPrint) handPrint.style.opacity = '1';
+            // গিফট দেখা যাবে
+            if (giftGroup) {
                 giftGroup.style.opacity = '1';
                 giftGroup.style.transform = 'scale(1)';
-            }, 700);
-            setTimeout(() => {
-                keyGroup.style.transform = 'translateX(0) rotate(0)';
-                keyGroup.style.opacity = '1';
-                giftGroup.style.opacity = '0';
-                giftGroup.style.transform = 'scale(0.5)';
-            }, 2800);
+                setTimeout(() => {
+                    giftGroup.style.opacity = '0';
+                    giftGroup.style.transform = 'scale(0.5)';
+                }, 3000);
+            }
         }
     </script>
 </body>
